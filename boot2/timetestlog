@@ -1,0 +1,17 @@
+October 30, 2016
+Running time test
+
+Test #1
+With 1196 got 0xf42bf
+
+This is 992447
+
+Test #2
+With 1196 got 0xf42be
+
+This is 992446
+
+
+Need to adjust to 1187
+
+Off by 0.7%

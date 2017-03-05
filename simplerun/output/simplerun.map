@@ -1,0 +1,910 @@
+MPLINK 4.20, Linker
+Linker Map File - Created Sun Nov 09 08:11:26 2008
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+               _entry_scn       code   0x000000    program   0x000006
+           remapped_reset       code   0x000800    program   0x000006
+                hi_vector       code   0x000808    program   0x000006
+               low_vector       code   0x000818    program   0x000006
+                   .cinit    romdata   0x00082a    program   0x000002
+           .code_SD-SPI.o       code   0x00082c    program   0x001700
+             .code_main.o       code   0x001f2c    program   0x00062a
+            .code_blink.o       code   0x002556    program   0x0001e4
+              .code_adc.o       code   0x00273a    program   0x0001ca
+               _cinit_scn       code   0x002904    program   0x00009e
+          .code_write_B.o       code   0x0029a2    program   0x00004a
+           .code_read_B.o       code   0x0029ec    program   0x000036
+        .romdata_SD-SPI.o    romdata   0x002a22    program   0x000034
+             D10KTCYXCODE       code   0x002a56    program   0x00002e
+             _startup_scn       code   0x002a84    program   0x00001c
+                    .code       code   0x002aa0    program   0x00000e
+         .code_busy_eep.o       code   0x002aae    program   0x000006
+           .code___init.o       code   0x002ab4    program   0x000002
+       .idata_write_B.o_i    romdata   0x002ab6    program   0x000000
+       .romdata_write_B.o    romdata   0x002ab6    program   0x000000
+        .idata___init.o_i    romdata   0x002ab6    program   0x000000
+        .romdata_read_B.o    romdata   0x002ab6    program   0x000000
+        .romdata___init.o    romdata   0x002ab6    program   0x000000
+        .idata_read_B.o_i    romdata   0x002ab6    program   0x000000
+         .idata_c018i.o_i    romdata   0x002ab6    program   0x000000
+      .romdata_busy_eep.o    romdata   0x002ab6    program   0x000000
+      .idata_busy_eep.o_i    romdata   0x002ab6    program   0x000000
+         .romdata_c018i.o    romdata   0x002ab6    program   0x000000
+            .code_c018i.o       code   0x002ab6    program   0x000000
+          .romdata_main.o    romdata   0x002ab6    program   0x000000
+          .idata_main.o_i    romdata   0x002ab6    program   0x000000
+        .idata_SD-SPI.o_i    romdata   0x002ab6    program   0x000000
+         .romdata_blink.o    romdata   0x002ab6    program   0x000000
+         .idata_blink.o_i    romdata   0x002ab6    program   0x000000
+           .romdata_adc.o    romdata   0x002ab6    program   0x000000
+           .idata_adc.o_i    romdata   0x002ab6    program   0x000000
+                 adc_data      udata   0x000000       data   0x00001c
+                MATH_DATA      udata   0x00001c       data   0x00000b
+                 .tmpdata      udata   0x000027       data   0x000005
+                DELAYDAT2      udata   0x00002c       data   0x000001
+                DELAYDAT1      udata   0x00002d       data   0x000001
+           .udata_c018i.o      udata   0x000060       data   0x00000a
+          .udata_SD-SPI.o      udata   0x00006a       data   0x000005
+            .udata_main.o      udata   0x00006f       data   0x000004
+           .idata_blink.o      idata   0x000073       data   0x000000
+           .udata_blink.o      udata   0x000073       data   0x000000
+          .idata_SD-SPI.o      idata   0x000073       data   0x000000
+             .idata_adc.o      idata   0x000073       data   0x000000
+            .idata_main.o      idata   0x000073       data   0x000000
+          .idata___init.o      idata   0x000073       data   0x000000
+          .udata___init.o      udata   0x000073       data   0x000000
+        .udata_busy_eep.o      udata   0x000073       data   0x000000
+        .idata_busy_eep.o      idata   0x000073       data   0x000000
+             .udata_adc.o      udata   0x000073       data   0x000000
+           .idata_c018i.o      idata   0x000073       data   0x000000
+          .udata_read_B.o      udata   0x000073       data   0x000000
+          .idata_read_B.o      idata   0x000073       data   0x000000
+         .udata_write_B.o      udata   0x000073       data   0x000000
+         .idata_write_B.o      idata   0x000073       data   0x000000
+               dataBuffer      udata   0x000100       data   0x000600
+                   .stack      udata   0x000700       data   0x000100
+            SFR_UNBANKED0      udata   0x000f66       data   0x00009a
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000005      
+                            0x000800    0x000805      
+                            0x000808    0x00080d      
+                            0x000818    0x00081d      
+                            0x00082a    0x002ab5      
+            8868 out of 24856 program addresses used, program memory utilization is 35%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                 Busy_eep   0x002aae    program     extern C:\MCC18\src\pmc_common\EEP\busy_eep.c
+                CloseSPIM   0x00170c    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+                   D10K_1   0x002a62    program     static C:\MCC18\src\traditional\delays\d10ktcyx.asm
+                    D10Kl   0x002a6e    program     static C:\MCC18\src\traditional\delays\d10ktcyx.asm
+                    D10Kx   0x002a60    program     static C:\MCC18\src\traditional\delays\d10ktcyx.asm
+             Delay10KTCYx   0x002a56    program     extern C:\MCC18\src\traditional\delays\d10ktcyx.asm
+                  Delayms   0x00168c    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+          MDD_SDSPI_Erase   0x001df0    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+  MDD_SDSPI_EraseBlockLen   0x0015d8    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+         MDD_SDSPI_InitIO   0x000850    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+    MDD_SDSPI_MediaDetect   0x00082c    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+MDD_SDSPI_MediaInitialize   0x001c30    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+MDD_SDSPI_MultiWriteBlockFinish   0x00145e    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+MDD_SDSPI_MultiWriteBlockStart   0x00155e    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+MDD_SDSPI_MultiWriteFinish   0x001550    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+MDD_SDSPI_MultiWriteStart   0x0014b8    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+   MDD_SDSPI_ReadCapacity   0x00083c    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+      MDD_SDSPI_ReadMedia   0x001742    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+ MDD_SDSPI_ReadSectorSize   0x000832    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+     MDD_SDSPI_SectorRead   0x000d18    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+    MDD_SDSPI_SectorWrite   0x00158a    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+MDD_SDSPI_SectorWriteFinish   0x00149a    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+MDD_SDSPI_SectorWriteStart   0x00138e    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+  MDD_SDSPI_ShutdownMedia   0x000856    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+MDD_SDSPI_WriteProtectState   0x001686    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+                 OpenSPIM   0x001766    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+          ReadMediaManual   0x0019c6    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+               Read_b_eep   0x0029ec    program     extern C:\MCC18\src\pmc_common\EEP\read_B.c
+               SendMMCCmd   0x00085e    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+         SendMMCCmdManual   0x000ace    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+                WriteSPIM   0x001710    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+           WriteSPIManual   0x00178c    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+              Write_b_eep   0x0029a2    program     extern C:\MCC18\src\pmc_common\EEP\write_B.c
+       _D10KTCYXCODE_0010   0x002a66    program     static C:\MCC18\src\traditional\delays\d10ktcyx.asm
+       _D10KTCYXCODE_001C   0x002a72    program     static C:\MCC18\src\traditional\delays\d10ktcyx.asm
+           ___if_lbl00002   0x00277e    program     static                          
+           ___if_lbl00003   0x002794    program     static                          
+           ___if_lbl00004   0x0027aa    program     static                          
+           ___if_lbl00005   0x002036    program     static                          
+           ___if_lbl00006   0x00204e    program     static                          
+       ___return_lbl00000   0x000004    program     static                          
+       ___return_lbl00000   0x000804    program     static                          
+       ___return_lbl00001   0x00080c    program     static                          
+       ___return_lbl00001   0x002a9e    program     static                          
+       ___return_lbl00001   0x002902    program     static                          
+       ___return_lbl00002   0x00081c    program     static                          
+       ___return_lbl00002   0x0029a0    program     static                          
+       ___return_lbl00004   0x002054    program     static                          
+       ___return_lbl00120   0x0016f8    program     static                          
+        ___while_lbl00121   0x00169e    program     static                          
+        ___while_lbl00122   0x0016f4    program     static                          
+        ___while_lbl00123   0x0016c2    program     static                          
+        ___while_lbl00124   0x0016f2    program     static                          
+                   __init   0x002ab4    program     extern C:\MCC18\src\traditional\stdclib\__init.c
+            __zero_memory   0x002aa0    program     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                _do_cinit   0x002904    program     extern C:\MCC18\src\traditional\startup\c018i.c
+                   _entry   0x000000    program     extern C:\MCC18\src\traditional\startup\c018i.c
+                   _reset   0x000800    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                 _startup   0x002a84    program     extern C:\MCC18\src\traditional\startup\c018i.c
+                 adc_init   0x00273a    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\adc.c
+                  adc_isr   0x0020d6    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+            adc_ring_init   0x00209c    program     static C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+               adc_sample   0x002744    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\adc.c
+              blink_debug   0x002580    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\blink.c
+              blink_error   0x0026f4    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\blink.c
+         blink_error_code   0x0025ca    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\blink.c
+               blink_init   0x00271e    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\blink.c
+             blink_ldelay   0x002556    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\blink.c
+                 blink_ok   0x002716    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\blink.c
+               clear_loop   0x002aa6    program     static C:\MCC18\src\traditional\proc\p18f2455.asm
+                copy_loop   0x002976    program     static                          
+            copy_one_byte   0x00297c    program     static                          
+                 data_run   0x00230a    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                     done   0x0029a0    program     static                          
+                     done   0x002036    program     static                          
+             done_copying   0x00298a    program     static                          
+           high_interrupt   0x000808    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                     loop   0x002a94    program     static                          
+            low_interrupt   0x000818    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                  low_isr   0x001f2c    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                     m026   0x002804    program     static                          
+                     m027   0x00280e    program     static                          
+                     m028   0x002814    program     static                          
+                     m029   0x002816    program     static                          
+                     m030   0x002820    program     static                          
+                     m031   0x002826    program     static                          
+                     m032   0x002828    program     static                          
+                     m033   0x002832    program     static                          
+                     m034   0x002838    program     static                          
+                     m035   0x00283a    program     static                          
+                     m036   0x002844    program     static                          
+                     m037   0x00284a    program     static                          
+                     m038   0x00284c    program     static                          
+                     m039   0x002856    program     static                          
+                     m040   0x00285c    program     static                          
+                     m041   0x00285e    program     static                          
+                     m042   0x002868    program     static                          
+                     m043   0x00286e    program     static                          
+                     m044   0x002870    program     static                          
+                     m045   0x00287a    program     static                          
+                     m046   0x002880    program     static                          
+                     m047   0x002882    program     static                          
+                     m048   0x00288c    program     static                          
+                     m049   0x002892    program     static                          
+                     m050   0x002894    program     static                          
+                     m051   0x00289e    program     static                          
+                     m052   0x0028a4    program     static                          
+                     m053   0x0028a6    program     static                          
+                     m054   0x0028b0    program     static                          
+                     m055   0x0028b6    program     static                          
+                     m056   0x0028b8    program     static                          
+                     m057   0x0028c2    program     static                          
+                     m058   0x0028c8    program     static                          
+                     m059   0x0028ca    program     static                          
+                     m060   0x0028d4    program     static                          
+                     m061   0x0028da    program     static                          
+                     m062   0x0028dc    program     static                          
+                     m063   0x0028e6    program     static                          
+                     m064   0x0028ec    program     static                          
+                     m065   0x0028ee    program     static                          
+                     m066   0x0028f8    program     static                          
+                     m067   0x0028fe    program     static                          
+                     m068   0x002900    program     static                          
+                     main   0x002500    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+             multi_finish   0x002290    program     static C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+               multi_init   0x0021fe    program     static C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+              multi_start   0x002206    program     static C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+               multi_term   0x0022da    program     static C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                 raw_init   0x0021d0    program     static C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+           sdmmc_cmdtable   0x002a22    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+               send_block   0x0011e6    program     static C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+                     test   0x00291e    program     static                          
+                timer_isr   0x001fe0    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+              timer_setup   0x0021da    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                   ADCON0   0x000fc2       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+               ADCON0bits   0x000fc2       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   ADCON1   0x000fc1       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+               ADCON1bits   0x000fc1       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   ADCON2   0x000fc0       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+               ADCON2bits   0x000fc0       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    ADRES   0x000fc3       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   ADRESH   0x000fc4       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   ADRESL   0x000fc3       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  BAUDCON   0x000fb8       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+              BAUDCONbits   0x000fb8       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                      BSR   0x000fe0       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   CCP1AS   0x000fb6       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+               CCP1ASbits   0x000fb6       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  CCP1CON   0x000fbd       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+              CCP1CONbits   0x000fbd       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  CCP1DEL   0x000fb7       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+              CCP1DELbits   0x000fb7       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  CCP2CON   0x000fba       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+              CCP2CONbits   0x000fba       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    CCPR1   0x000fbe       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   CCPR1H   0x000fbf       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   CCPR1L   0x000fbe       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    CCPR2   0x000fbb       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   CCPR2H   0x000fbc       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   CCPR2L   0x000fbb       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    CMCON   0x000fb4       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                CMCONbits   0x000fb4       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   CVRCON   0x000fb5       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+               CVRCONbits   0x000fb5       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     DDRA   0x000f92       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 DDRAbits   0x000f92       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     DDRB   0x000f93       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 DDRBbits   0x000f93       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     DDRC   0x000f94       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 DDRCbits   0x000f94       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+            DelayCounter1   0x00002d       data     extern C:\MCC18\src\traditional\delays\delayd1.asm
+            DelayCounter2   0x00002c       data     extern C:\MCC18\src\traditional\delays\delayd2.asm
+                  ECCP1AS   0x000fb6       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+              ECCP1ASbits   0x000fb6       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 ECCP1DEL   0x000fb7       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+             ECCP1DELbits   0x000fb7       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    EEADR   0x000fa9       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   EECON1   0x000fa6       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+               EECON1bits   0x000fa6       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   EECON2   0x000fa7       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   EEDATA   0x000fa8       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     FSR0   0x000fe9       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    FSR0H   0x000fea       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    FSR0L   0x000fe9       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     FSR1   0x000fe1       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    FSR1H   0x000fe2       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    FSR1L   0x000fe1       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     FSR2   0x000fd9       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    FSR2H   0x000fda       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    FSR2L   0x000fd9       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  HLVDCON   0x000fd2       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+              HLVDCONbits   0x000fd2       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    INDF0   0x000fef       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    INDF1   0x000fe7       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    INDF2   0x000fdf       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   INTCON   0x000ff2       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  INTCON2   0x000ff1       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+              INTCON2bits   0x000ff1       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  INTCON3   0x000ff0       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+              INTCON3bits   0x000ff0       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+               INTCONbits   0x000ff2       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     IPR1   0x000f9f       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 IPR1bits   0x000f9f       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     IPR2   0x000fa2       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 IPR2bits   0x000fa2       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     LATA   0x000f89       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 LATAbits   0x000f89       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     LATB   0x000f8a       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 LATBbits   0x000f8a       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     LATC   0x000f8b       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 LATCbits   0x000f8b       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   LVDCON   0x000fd2       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+               LVDCONbits   0x000fd2       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+       MDD_SDSPI_finalLBA   0x00006a       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+                   OSCCON   0x000fd3       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+               OSCCONbits   0x000fd3       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  OSCTUNE   0x000f9b       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+              OSCTUNEbits   0x000f9b       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                       PC   0x000ff9       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                      PCL   0x000ff9       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   PCLATH   0x000ffa       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   PCLATU   0x000ffb       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     PIE1   0x000f9d       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 PIE1bits   0x000f9d       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     PIE2   0x000fa0       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 PIE2bits   0x000fa0       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     PIR1   0x000f9e       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 PIR1bits   0x000f9e       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     PIR2   0x000fa1       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 PIR2bits   0x000fa1       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   PLUSW0   0x000feb       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   PLUSW1   0x000fe3       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   PLUSW2   0x000fdb       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    PORTA   0x000f80       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                PORTAbits   0x000f80       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    PORTB   0x000f81       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                PORTBbits   0x000f81       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    PORTC   0x000f82       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                PORTCbits   0x000f82       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    PORTE   0x000f84       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                PORTEbits   0x000f84       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 POSTDEC0   0x000fed       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 POSTDEC1   0x000fe5       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 POSTDEC2   0x000fdd       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 POSTINC0   0x000fee       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 POSTINC1   0x000fe6       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 POSTINC2   0x000fde       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                      PR2   0x000fcb       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  PREINC0   0x000fec       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  PREINC1   0x000fe4       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  PREINC2   0x000fdc       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     PROD   0x000ff3       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    PRODH   0x000ff4       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    PRODL   0x000ff3       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     RCON   0x000fd0       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 RCONbits   0x000fd0       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    RCREG   0x000fae       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    RCSTA   0x000fab       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                RCSTAbits   0x000fab       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     SIGN   0x000025       data     extern C:\MCC18\src\traditional\math\cmath18.asm
+                    SPBRG   0x000faf       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   SPBRGH   0x000fb0       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   SSPADD   0x000fc8       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   SSPBUF   0x000fc9       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  SSPCON1   0x000fc6       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+              SSPCON1bits   0x000fc6       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  SSPCON2   0x000fc5       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+              SSPCON2bits   0x000fc5       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  SSPSTAT   0x000fc7       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+              SSPSTATbits   0x000fc7       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   STATUS   0x000fd8       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+               STATUSbits   0x000fd8       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   STKPTR   0x000ffc       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+               STKPTRbits   0x000ffc       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 SW_clear   0x000007       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+         SW_data_response   0x000006       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+                 SW_index   0x000004       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+              SW_response   0x000008       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+          SendStopOnError   0x00006e       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+                    T0CON   0x000fd5       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                T0CONbits   0x000fd5       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    T1CON   0x000fcd       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                T1CONbits   0x000fcd       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    T2CON   0x000fca       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                T2CONbits   0x000fca       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    T3CON   0x000fb1       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                T3CONbits   0x000fb1       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   TABLAT   0x000ff5       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   TBLPTR   0x000ff6       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  TBLPTRH   0x000ff7       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  TBLPTRL   0x000ff6       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  TBLPTRU   0x000ff8       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    TMR0H   0x000fd7       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    TMR0L   0x000fd6       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    TMR1H   0x000fcf       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    TMR1L   0x000fce       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     TMR2   0x000fcc       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    TMR3H   0x000fb3       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    TMR3L   0x000fb2       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                      TOS   0x000ffd       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     TOSH   0x000ffe       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     TOSL   0x000ffd       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     TOSU   0x000fff       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    TRISA   0x000f92       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                TRISAbits   0x000f92       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    TRISB   0x000f93       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                TRISBbits   0x000f93       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    TRISC   0x000f94       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                TRISCbits   0x000f94       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    TXREG   0x000fad       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    TXSTA   0x000fac       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                TXSTAbits   0x000fac       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    UADDR   0x000f6e       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                UADDRbits   0x000f6e       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UCFG   0x000f6f       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UCFGbits   0x000f6f       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UCON   0x000f6d       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UCONbits   0x000f6d       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UEIE   0x000f6b       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UEIEbits   0x000f6b       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UEIR   0x000f6a       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UEIRbits   0x000f6a       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UEP0   0x000f70       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UEP0bits   0x000f70       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UEP1   0x000f71       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    UEP10   0x000f7a       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                UEP10bits   0x000f7a       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    UEP11   0x000f7b       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                UEP11bits   0x000f7b       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    UEP12   0x000f7c       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                UEP12bits   0x000f7c       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    UEP13   0x000f7d       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                UEP13bits   0x000f7d       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    UEP14   0x000f7e       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                UEP14bits   0x000f7e       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    UEP15   0x000f7f       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                UEP15bits   0x000f7f       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UEP1bits   0x000f71       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UEP2   0x000f72       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UEP2bits   0x000f72       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UEP3   0x000f73       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UEP3bits   0x000f73       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UEP4   0x000f74       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UEP4bits   0x000f74       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UEP5   0x000f75       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UEP5bits   0x000f75       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UEP6   0x000f76       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UEP6bits   0x000f76       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UEP7   0x000f77       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UEP7bits   0x000f77       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UEP8   0x000f78       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UEP8bits   0x000f78       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UEP9   0x000f79       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UEP9bits   0x000f79       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UFRM   0x000f66       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    UFRMH   0x000f67       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                UFRMHbits   0x000f67       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    UFRML   0x000f66       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                UFRMLbits   0x000f66       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                      UIE   0x000f69       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  UIEbits   0x000f69       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                      UIR   0x000f68       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  UIRbits   0x000f68       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    USTAT   0x000f6c       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                USTATbits   0x000f6c       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   WDTCON   0x000fd1       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+               WDTCONbits   0x000fd1       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     WREG   0x000fe8       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 __AARGB0   0x000023       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                 __AARGB1   0x000022       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                 __AARGB2   0x000021       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                 __AARGB3   0x000020       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                 __AARGB4   0x00001f       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                 __AARGB5   0x00001e       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                 __AARGB6   0x00001d       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                 __AARGB7   0x00001c       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                   __AEXP   0x000024       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                __FPFLAGS   0x000026       data     extern C:\MCC18\src\traditional\math\cmath18.asm
+            __FPFLAGSbits   0x000026       data     extern C:\MCC18\src\traditional\math\cmath18.asm
+                  __REMB0   0x00001f       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                  __REMB1   0x00001e       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                  __REMB2   0x00001d       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                  __REMB3   0x00001c       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                  __tmp_0   0x000027       data     static C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                  __tmp_0   0x000027       data     static C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+                  __tmp_0   0x000027       data     static C:\MCC18\src\pmc_common\EEP\write_B.c
+                  __tmp_0   0x000027       data     static C:\MCC18\src\pmc_common\EEP\read_B.c
+              adc_channel   0x000002       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\adc.c
+         adc_ring_running   0x000010       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+          adc_sample_skip   0x00000a       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                adc_value   0x000000       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\adc.c
+                   b1flag   0x00000c       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                   b2flag   0x00000d       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                   b3flag   0x00000e       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                       bn   0x00000f       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                   buffer   0x000100       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                curr_byte   0x000063       data     static C:\MCC18\src\traditional\startup\c018i.c
+               curr_entry   0x000065       data     static C:\MCC18\src\traditional\startup\c018i.c
+                 data_ptr   0x000067       data     static C:\MCC18\src\traditional\startup\c018i.c
+                    extra   0x000003       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\adc.c
+                      lba   0x000018       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                     prom   0x000060       data     static C:\MCC18\src\traditional\startup\c018i.c
+                 record_p   0x00006f       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+          samples_to_fill   0x000011       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+sectors_left_in_multiblock   0x000071       data     static C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                   value0   0x000012       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                   value1   0x000014       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                   value2   0x000016       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                   _entry   0x000000    program     extern C:\MCC18\src\traditional\startup\c018i.c
+       ___return_lbl00000   0x000004    program     static                          
+                   _reset   0x000800    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+       ___return_lbl00000   0x000804    program     static                          
+           high_interrupt   0x000808    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+       ___return_lbl00001   0x00080c    program     static                          
+            low_interrupt   0x000818    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+       ___return_lbl00002   0x00081c    program     static                          
+    MDD_SDSPI_MediaDetect   0x00082c    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+ MDD_SDSPI_ReadSectorSize   0x000832    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+   MDD_SDSPI_ReadCapacity   0x00083c    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+         MDD_SDSPI_InitIO   0x000850    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+  MDD_SDSPI_ShutdownMedia   0x000856    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+               SendMMCCmd   0x00085e    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+         SendMMCCmdManual   0x000ace    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+     MDD_SDSPI_SectorRead   0x000d18    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+               send_block   0x0011e6    program     static C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+MDD_SDSPI_SectorWriteStart   0x00138e    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+MDD_SDSPI_MultiWriteBlockFinish   0x00145e    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+MDD_SDSPI_SectorWriteFinish   0x00149a    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+MDD_SDSPI_MultiWriteStart   0x0014b8    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+MDD_SDSPI_MultiWriteFinish   0x001550    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+MDD_SDSPI_MultiWriteBlockStart   0x00155e    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+    MDD_SDSPI_SectorWrite   0x00158a    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+  MDD_SDSPI_EraseBlockLen   0x0015d8    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+MDD_SDSPI_WriteProtectState   0x001686    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+                  Delayms   0x00168c    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+        ___while_lbl00121   0x00169e    program     static                          
+        ___while_lbl00123   0x0016c2    program     static                          
+        ___while_lbl00124   0x0016f2    program     static                          
+        ___while_lbl00122   0x0016f4    program     static                          
+       ___return_lbl00120   0x0016f8    program     static                          
+                CloseSPIM   0x00170c    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+                WriteSPIM   0x001710    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+      MDD_SDSPI_ReadMedia   0x001742    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+                 OpenSPIM   0x001766    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+           WriteSPIManual   0x00178c    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+          ReadMediaManual   0x0019c6    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+MDD_SDSPI_MediaInitialize   0x001c30    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+          MDD_SDSPI_Erase   0x001df0    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+                  low_isr   0x001f2c    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                timer_isr   0x001fe0    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                     done   0x002036    program     static                          
+           ___if_lbl00005   0x002036    program     static                          
+           ___if_lbl00006   0x00204e    program     static                          
+       ___return_lbl00004   0x002054    program     static                          
+            adc_ring_init   0x00209c    program     static C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                  adc_isr   0x0020d6    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                 raw_init   0x0021d0    program     static C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+              timer_setup   0x0021da    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+               multi_init   0x0021fe    program     static C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+              multi_start   0x002206    program     static C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+             multi_finish   0x002290    program     static C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+               multi_term   0x0022da    program     static C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                 data_run   0x00230a    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                     main   0x002500    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+             blink_ldelay   0x002556    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\blink.c
+              blink_debug   0x002580    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\blink.c
+         blink_error_code   0x0025ca    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\blink.c
+              blink_error   0x0026f4    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\blink.c
+                 blink_ok   0x002716    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\blink.c
+               blink_init   0x00271e    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\blink.c
+                 adc_init   0x00273a    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\adc.c
+               adc_sample   0x002744    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\adc.c
+           ___if_lbl00002   0x00277e    program     static                          
+           ___if_lbl00003   0x002794    program     static                          
+           ___if_lbl00004   0x0027aa    program     static                          
+                     m026   0x002804    program     static                          
+                     m027   0x00280e    program     static                          
+                     m028   0x002814    program     static                          
+                     m029   0x002816    program     static                          
+                     m030   0x002820    program     static                          
+                     m031   0x002826    program     static                          
+                     m032   0x002828    program     static                          
+                     m033   0x002832    program     static                          
+                     m034   0x002838    program     static                          
+                     m035   0x00283a    program     static                          
+                     m036   0x002844    program     static                          
+                     m037   0x00284a    program     static                          
+                     m038   0x00284c    program     static                          
+                     m039   0x002856    program     static                          
+                     m040   0x00285c    program     static                          
+                     m041   0x00285e    program     static                          
+                     m042   0x002868    program     static                          
+                     m043   0x00286e    program     static                          
+                     m044   0x002870    program     static                          
+                     m045   0x00287a    program     static                          
+                     m046   0x002880    program     static                          
+                     m047   0x002882    program     static                          
+                     m048   0x00288c    program     static                          
+                     m049   0x002892    program     static                          
+                     m050   0x002894    program     static                          
+                     m051   0x00289e    program     static                          
+                     m052   0x0028a4    program     static                          
+                     m053   0x0028a6    program     static                          
+                     m054   0x0028b0    program     static                          
+                     m055   0x0028b6    program     static                          
+                     m056   0x0028b8    program     static                          
+                     m057   0x0028c2    program     static                          
+                     m058   0x0028c8    program     static                          
+                     m059   0x0028ca    program     static                          
+                     m060   0x0028d4    program     static                          
+                     m061   0x0028da    program     static                          
+                     m062   0x0028dc    program     static                          
+                     m063   0x0028e6    program     static                          
+                     m064   0x0028ec    program     static                          
+                     m065   0x0028ee    program     static                          
+                     m066   0x0028f8    program     static                          
+                     m067   0x0028fe    program     static                          
+                     m068   0x002900    program     static                          
+       ___return_lbl00001   0x002902    program     static                          
+                _do_cinit   0x002904    program     extern C:\MCC18\src\traditional\startup\c018i.c
+                     test   0x00291e    program     static                          
+                copy_loop   0x002976    program     static                          
+            copy_one_byte   0x00297c    program     static                          
+             done_copying   0x00298a    program     static                          
+                     done   0x0029a0    program     static                          
+       ___return_lbl00002   0x0029a0    program     static                          
+              Write_b_eep   0x0029a2    program     extern C:\MCC18\src\pmc_common\EEP\write_B.c
+               Read_b_eep   0x0029ec    program     extern C:\MCC18\src\pmc_common\EEP\read_B.c
+           sdmmc_cmdtable   0x002a22    program     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+             Delay10KTCYx   0x002a56    program     extern C:\MCC18\src\traditional\delays\d10ktcyx.asm
+                    D10Kx   0x002a60    program     static C:\MCC18\src\traditional\delays\d10ktcyx.asm
+                   D10K_1   0x002a62    program     static C:\MCC18\src\traditional\delays\d10ktcyx.asm
+       _D10KTCYXCODE_0010   0x002a66    program     static C:\MCC18\src\traditional\delays\d10ktcyx.asm
+                    D10Kl   0x002a6e    program     static C:\MCC18\src\traditional\delays\d10ktcyx.asm
+       _D10KTCYXCODE_001C   0x002a72    program     static C:\MCC18\src\traditional\delays\d10ktcyx.asm
+                 _startup   0x002a84    program     extern C:\MCC18\src\traditional\startup\c018i.c
+                     loop   0x002a94    program     static                          
+       ___return_lbl00001   0x002a9e    program     static                          
+            __zero_memory   0x002aa0    program     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+               clear_loop   0x002aa6    program     static C:\MCC18\src\traditional\proc\p18f2455.asm
+                 Busy_eep   0x002aae    program     extern C:\MCC18\src\pmc_common\EEP\busy_eep.c
+                   __init   0x002ab4    program     extern C:\MCC18\src\traditional\stdclib\__init.c
+                adc_value   0x000000       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\adc.c
+              adc_channel   0x000002       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\adc.c
+                    extra   0x000003       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\adc.c
+                 SW_index   0x000004       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+         SW_data_response   0x000006       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+                 SW_clear   0x000007       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+              SW_response   0x000008       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+          adc_sample_skip   0x00000a       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                   b1flag   0x00000c       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                   b2flag   0x00000d       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                   b3flag   0x00000e       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                       bn   0x00000f       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+         adc_ring_running   0x000010       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+          samples_to_fill   0x000011       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                   value0   0x000012       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                   value1   0x000014       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                   value2   0x000016       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                      lba   0x000018       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                  __REMB3   0x00001c       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                 __AARGB7   0x00001c       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                  __REMB2   0x00001d       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                 __AARGB6   0x00001d       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                  __REMB1   0x00001e       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                 __AARGB5   0x00001e       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                 __AARGB4   0x00001f       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                  __REMB0   0x00001f       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                 __AARGB3   0x000020       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                 __AARGB2   0x000021       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                 __AARGB1   0x000022       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                 __AARGB0   0x000023       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                   __AEXP   0x000024       data     extern C:\MCC18\src\traditional\math\aarg.asm
+                     SIGN   0x000025       data     extern C:\MCC18\src\traditional\math\cmath18.asm
+                __FPFLAGS   0x000026       data     extern C:\MCC18\src\traditional\math\cmath18.asm
+            __FPFLAGSbits   0x000026       data     extern C:\MCC18\src\traditional\math\cmath18.asm
+                  __tmp_0   0x000027       data     static C:\MCC18\src\pmc_common\EEP\read_B.c
+                  __tmp_0   0x000027       data     static C:\MCC18\src\pmc_common\EEP\write_B.c
+                  __tmp_0   0x000027       data     static C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+                  __tmp_0   0x000027       data     static C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+            DelayCounter2   0x00002c       data     extern C:\MCC18\src\traditional\delays\delayd2.asm
+            DelayCounter1   0x00002d       data     extern C:\MCC18\src\traditional\delays\delayd1.asm
+                     prom   0x000060       data     static C:\MCC18\src\traditional\startup\c018i.c
+                curr_byte   0x000063       data     static C:\MCC18\src\traditional\startup\c018i.c
+               curr_entry   0x000065       data     static C:\MCC18\src\traditional\startup\c018i.c
+                 data_ptr   0x000067       data     static C:\MCC18\src\traditional\startup\c018i.c
+       MDD_SDSPI_finalLBA   0x00006a       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+          SendStopOnError   0x00006e       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\SD-SPI.c
+                 record_p   0x00006f       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+sectors_left_in_multiblock   0x000071       data     static C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                   buffer   0x000100       data     extern C:\daniel\personal\Electronics\DataCaptureV2\simplerun\main.c
+                UFRMLbits   0x000f66       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UFRM   0x000f66       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    UFRML   0x000f66       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                UFRMHbits   0x000f67       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    UFRMH   0x000f67       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  UIRbits   0x000f68       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                      UIR   0x000f68       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                      UIE   0x000f69       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  UIEbits   0x000f69       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UEIRbits   0x000f6a       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UEIR   0x000f6a       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UEIEbits   0x000f6b       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UEIE   0x000f6b       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                USTATbits   0x000f6c       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    USTAT   0x000f6c       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UCON   0x000f6d       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UCONbits   0x000f6d       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    UADDR   0x000f6e       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                UADDRbits   0x000f6e       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UCFG   0x000f6f       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UCFGbits   0x000f6f       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UEP0   0x000f70       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UEP0bits   0x000f70       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UEP1bits   0x000f71       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UEP1   0x000f71       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UEP2bits   0x000f72       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UEP2   0x000f72       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UEP3   0x000f73       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UEP3bits   0x000f73       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UEP4   0x000f74       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UEP4bits   0x000f74       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UEP5bits   0x000f75       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UEP5   0x000f75       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UEP6   0x000f76       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UEP6bits   0x000f76       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UEP7   0x000f77       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UEP7bits   0x000f77       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UEP8   0x000f78       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UEP8bits   0x000f78       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     UEP9   0x000f79       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 UEP9bits   0x000f79       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                UEP10bits   0x000f7a       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    UEP10   0x000f7a       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                UEP11bits   0x000f7b       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    UEP11   0x000f7b       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                UEP12bits   0x000f7c       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    UEP12   0x000f7c       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    UEP13   0x000f7d       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                UEP13bits   0x000f7d       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                UEP14bits   0x000f7e       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    UEP14   0x000f7e       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    UEP15   0x000f7f       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                UEP15bits   0x000f7f       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    PORTA   0x000f80       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                PORTAbits   0x000f80       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    PORTB   0x000f81       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                PORTBbits   0x000f81       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                PORTCbits   0x000f82       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    PORTC   0x000f82       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                PORTEbits   0x000f84       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    PORTE   0x000f84       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     LATA   0x000f89       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 LATAbits   0x000f89       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     LATB   0x000f8a       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 LATBbits   0x000f8a       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     LATC   0x000f8b       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 LATCbits   0x000f8b       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                TRISAbits   0x000f92       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    TRISA   0x000f92       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 DDRAbits   0x000f92       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     DDRA   0x000f92       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 DDRBbits   0x000f93       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     DDRB   0x000f93       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                TRISBbits   0x000f93       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    TRISB   0x000f93       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                TRISCbits   0x000f94       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    TRISC   0x000f94       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 DDRCbits   0x000f94       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     DDRC   0x000f94       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+              OSCTUNEbits   0x000f9b       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  OSCTUNE   0x000f9b       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     PIE1   0x000f9d       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 PIE1bits   0x000f9d       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 PIR1bits   0x000f9e       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     PIR1   0x000f9e       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     IPR1   0x000f9f       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 IPR1bits   0x000f9f       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 PIE2bits   0x000fa0       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     PIE2   0x000fa0       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     PIR2   0x000fa1       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 PIR2bits   0x000fa1       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     IPR2   0x000fa2       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 IPR2bits   0x000fa2       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   EECON1   0x000fa6       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+               EECON1bits   0x000fa6       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   EECON2   0x000fa7       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   EEDATA   0x000fa8       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    EEADR   0x000fa9       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                RCSTAbits   0x000fab       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    RCSTA   0x000fab       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    TXSTA   0x000fac       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                TXSTAbits   0x000fac       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    TXREG   0x000fad       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    RCREG   0x000fae       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    SPBRG   0x000faf       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   SPBRGH   0x000fb0       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    T3CON   0x000fb1       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                T3CONbits   0x000fb1       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    TMR3L   0x000fb2       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    TMR3H   0x000fb3       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                CMCONbits   0x000fb4       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    CMCON   0x000fb4       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   CVRCON   0x000fb5       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+               CVRCONbits   0x000fb5       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+              ECCP1ASbits   0x000fb6       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+               CCP1ASbits   0x000fb6       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   CCP1AS   0x000fb6       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  ECCP1AS   0x000fb6       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+              CCP1DELbits   0x000fb7       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  CCP1DEL   0x000fb7       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 ECCP1DEL   0x000fb7       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+             ECCP1DELbits   0x000fb7       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+              BAUDCONbits   0x000fb8       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  BAUDCON   0x000fb8       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+              CCP2CONbits   0x000fba       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  CCP2CON   0x000fba       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    CCPR2   0x000fbb       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   CCPR2L   0x000fbb       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   CCPR2H   0x000fbc       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+              CCP1CONbits   0x000fbd       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  CCP1CON   0x000fbd       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    CCPR1   0x000fbe       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   CCPR1L   0x000fbe       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   CCPR1H   0x000fbf       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+               ADCON2bits   0x000fc0       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   ADCON2   0x000fc0       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+               ADCON1bits   0x000fc1       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   ADCON1   0x000fc1       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   ADCON0   0x000fc2       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+               ADCON0bits   0x000fc2       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    ADRES   0x000fc3       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   ADRESL   0x000fc3       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   ADRESH   0x000fc4       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  SSPCON2   0x000fc5       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+              SSPCON2bits   0x000fc5       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  SSPCON1   0x000fc6       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+              SSPCON1bits   0x000fc6       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  SSPSTAT   0x000fc7       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+              SSPSTATbits   0x000fc7       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   SSPADD   0x000fc8       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   SSPBUF   0x000fc9       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                T2CONbits   0x000fca       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    T2CON   0x000fca       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                      PR2   0x000fcb       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     TMR2   0x000fcc       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                T1CONbits   0x000fcd       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    T1CON   0x000fcd       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    TMR1L   0x000fce       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    TMR1H   0x000fcf       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     RCON   0x000fd0       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 RCONbits   0x000fd0       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   WDTCON   0x000fd1       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+               WDTCONbits   0x000fd1       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  HLVDCON   0x000fd2       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+              HLVDCONbits   0x000fd2       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+               LVDCONbits   0x000fd2       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   LVDCON   0x000fd2       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+               OSCCONbits   0x000fd3       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   OSCCON   0x000fd3       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    T0CON   0x000fd5       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                T0CONbits   0x000fd5       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    TMR0L   0x000fd6       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    TMR0H   0x000fd7       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   STATUS   0x000fd8       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+               STATUSbits   0x000fd8       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     FSR2   0x000fd9       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    FSR2L   0x000fd9       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    FSR2H   0x000fda       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   PLUSW2   0x000fdb       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  PREINC2   0x000fdc       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 POSTDEC2   0x000fdd       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 POSTINC2   0x000fde       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    INDF2   0x000fdf       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                      BSR   0x000fe0       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     FSR1   0x000fe1       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    FSR1L   0x000fe1       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    FSR1H   0x000fe2       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   PLUSW1   0x000fe3       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  PREINC1   0x000fe4       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 POSTDEC1   0x000fe5       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 POSTINC1   0x000fe6       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    INDF1   0x000fe7       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     WREG   0x000fe8       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     FSR0   0x000fe9       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    FSR0L   0x000fe9       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    FSR0H   0x000fea       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   PLUSW0   0x000feb       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  PREINC0   0x000fec       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 POSTDEC0   0x000fed       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                 POSTINC0   0x000fee       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    INDF0   0x000fef       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+              INTCON3bits   0x000ff0       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  INTCON3   0x000ff0       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+              INTCON2bits   0x000ff1       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  INTCON2   0x000ff1       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+               INTCONbits   0x000ff2       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   INTCON   0x000ff2       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    PRODL   0x000ff3       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     PROD   0x000ff3       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                    PRODH   0x000ff4       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   TABLAT   0x000ff5       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   TBLPTR   0x000ff6       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  TBLPTRL   0x000ff6       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  TBLPTRH   0x000ff7       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                  TBLPTRU   0x000ff8       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                      PCL   0x000ff9       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                       PC   0x000ff9       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   PCLATH   0x000ffa       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   PCLATU   0x000ffb       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                   STKPTR   0x000ffc       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+               STKPTRbits   0x000ffc       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                      TOS   0x000ffd       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     TOSL   0x000ffd       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     TOSH   0x000ffe       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+                     TOSU   0x000fff       data     extern C:\MCC18\src\traditional\proc\p18f2455.asm
+
+

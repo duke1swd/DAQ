@@ -1,0 +1,78 @@
+This directory contains the data capture program.
+
+It runs in the DAQ 1.0 board.
+
+Functional specification:
+
+The program has these phases:
+
+ 0)  Initialize.  The bootstrap blinks the count (3) on the green LED.
+     The program then sets both LEDs on for about 1 second.
+
+ 1)  Analyze the file system.  Find the location to put the data.
+     Set the last modified time of the file to the current time.
+
+     During this phase the green LED is on.
+
+ 2a) Erase the dataset.
+ 2b) Reprogram the non-erased portions
+
+     First, check if needed.  If no other programs have run
+     since the last time this process was done, and if we never
+     captured data the last time we ran, skip this phase.
+
+     Sweep through the entire memory.  Ignore any page that
+     is already erased.  Either reprogram or erase all others,
+     as needed.
+
+     Green LED blinks every 256 pages. This is about 1Hz when
+     erasing or reprograming, and much, much faster when skipping
+     already erased pages.
+
+
+ 3a) Wait for the record/stop switch.   Green LED flashes at just
+     under 1HZ.  External LED is off.
+
+ 3b) Wait for the trigger condition.  During this time the ADC
+     is running.  Trigger condition is either a signal on either raw
+     input, or seeing more than 10 PSI on the pressure sensor.
+     Trigger seeing either trigger condition for 9 out of ten
+     consecutive samples (1 ms).  During this time the base level
+     code is continuously polling the TOD clock.
+
+     Green LED is continuously on.
+
+     External LED is flashing slowly.  However, if either OPTO is
+     on, then external is ON.
+
+ 4a) Write the header of the file, including time stamp.
+ 4b) Data run, gather data, write to dataflash.
+     Green LED is blinking rapidly.  ~10Hz.  External LED runs at
+     1/4 the frequency of the green with a 25% duty cycle.
+     However, if iether OPTO is on, then external is ON.
+
+ 5) Finish up.  Either record-stop switch was turned off, or 
+    ran out of space.  If record-stop switch was turned off, write
+    the EOF record.
+
+    Green LED is blinking 0.1 second on, 1.3 seconds off.  If the
+    recording terminated by EOF then the red LED also blinks at the
+    frequency and half the duty cycle.
+
+    External LED is off.
+
+
+STILL TO DO:
+ * set the last modified date on the file.
+
+
+MODIFIED:
+This code now generates two programs, run and erase.
+Run is generated with -DNOERASE, and erase is generated with -DERASE.
+Step 2a/b becomes verify the atmel is ready.
+
+The run program cannot erase the atmel flash.  The erase program does
+only that.
+
+Running the data capture program without erasing the flash causes a halt
+with only the RED LED own.

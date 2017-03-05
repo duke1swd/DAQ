@@ -1,0 +1,9 @@
+MODE 0: firmware boot
+MODE 1: USB Drive
+MODE 2: Com Port
+MODE 3: erase the data
+MODE 4: run
+MODE 5: time test stuff
+MODE 6: echo record/stop onto RAW 0
+MODE 7: quick check out
+MODE 7: batterytest

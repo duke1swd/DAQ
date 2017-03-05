@@ -1,0 +1,55 @@
+This directory containts a program that allows use of the DAQ
+to test a deep-cycle 12V marine battery.
+
+It runs in the DAQ 1.0 board.
+
+Functional specification:
+
+Connections:
+INPUT 0 is the current sense.
+INPUT 1 is the voltage sense.
+RAW 0 is the control.  Not inverted.
+
+Outboard hardware
+
+This board is designed to operate in conjunction with a modest
+collection of outboard hardware.  That hardware provides the load,
+a current shunt, a voltage divider, and a power MOSFET that turns it
+on and off.
+
+The program turns on the load, measures current and voltage over
+time, and then turns off the load when the voltage drops to a
+preset minimum.
+
+The program has these phases:
+
+ 0)  Initialize.  The bootstrap blinks the count (7) on the green LED.
+     The program then sets both LEDs on for about 1 second.
+
+ 1)  Analyze the file system.  Find the location to put the data.
+     Set the last modified time of the file to the current time.
+
+     During this phase the green LED is on.
+
+ 2)  Verify that data region is erased and ready.
+
+     If no other programs have run
+     since the last time it was erased, and if we never
+     captured data the last time we ran, we are good.
+
+ 3)  Wait for the record/stop switch.   Green LED flashes at just
+     under 1HZ.
+
+ 4a) Write the header of the file, including time stamp.  Turn on
+     the load.
+ 4b) Data run, gather data, write to dataflash.
+     Green LED is blinking rapidly.  ~10Hz.
+ 4c) Monitor the voltage.  If it drops below a preset level, stop.
+     Turn off the load.
+
+ 5) Finish up.  Either the voltage trigger was hit, or ran out of
+    space.  If record-stop switch was turned off, write the EOF record.
+
+    Green LED is blinking 0.1 second on, 1.3 seconds off.  If the
+    recording terminated by EOF then the red LED also blinks at the
+    frequency and half the duty cycle.

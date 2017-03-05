@@ -1,0 +1,44 @@
+The simplified version of the data capture board has three controls
+and a single LED display.
+
+The controls are power switch, record switch, and record button.
+
+Normal operation sequence:
+
+ 1. Record switch off, record button up (open).
+ 2. Turn power switch on.
+ 3. Idle: LED on solid for 0.5 seconds, then a .1 second blink every second.
+ 4. To start recording, press and hold the record button, turn on record switch.
+ 5. Recording: LED .8 second blink every second.
+ 6. To stop recording, turn off record switch.
+ 7: Idle: LED blink: 1 second on / 1 second off.
+ 8: Power off to remove memory card.
+
+Errors:
+
+There are two classes of error conditions.  Operator errors
+and internal errors.  Most of the internal errors are communication
+problems with the MMC card.
+
+Most errors are blinked out on the LED.  The error blink pattern is:
+2 seconds off
+1 second on
+1 second off
+error code, count the number of blinks.  Each blink is .25 on / .25 off.
+
+Error codes:
+	0: not used
+	1: Record switch found on at power up.
+	2: Record switch turned on when record button not on.
+	3: Record button pressed while in terminal idle state.
+	4: Record switch turned on while in terminal idle state.
+	5: not used
+	6:
+
+If the LED is solid on, then either the controller hung with the
+LED in the ON state or the software hit an unrecoverable abort state.
+The abort code should be present on pin 0.
+
+Abort conditions are
+	unknown high priority interrupt
+	unexpected chip reset (any reset other than power on)

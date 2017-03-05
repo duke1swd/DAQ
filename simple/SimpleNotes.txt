@@ -1,0 +1,6 @@
+Pressure sensor wiring (over cat 5)
+
+Orange is +
+Green is -
+
+Blue is signal.

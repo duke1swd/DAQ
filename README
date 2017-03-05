@@ -1,0 +1,5 @@
+Finding your way around:
+
+Go to ./install and read the makefile.
+This shows what binaries are currently being used by the DAQ.
+Work your way up from there.

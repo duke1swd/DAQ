@@ -1,0 +1,19 @@
+- U6, the top pin is shorted to ground when it shouldn't be,
+  and the bottom pin is completely open.  Should be grounded.
+
+- The precision regulators behave a bit wierdly with no load.
+  Adding a 10K load to +/- Excite stabilizes them.  So, apparently
+  does adding in the trim pots.
+
+- Need to verify the USB pull-ups.  Is it OK to have these installed?
+  What happens when the device is removed but still has load on the bus?
+
+- Trim pots need to be wired in when a precision voltage reference is available.
+
+- Move the .01 filter caps (C16 and C24) need to move because they are too close
+  to other caps.
+
+- The PIC xtal is too close to the PIC.
+
+- Update to revision #1.1.
+

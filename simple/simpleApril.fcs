@@ -1,0 +1,309 @@
+
+CC8E Version 1.2, Copyright (c) B Knudsen Data.
+* FUNCTION CALL STRUCTURE
+
+F: highPriorityIntServer  :#0 
+    highPriorityInt       : #1 
+
+F: lowPriorityIntServer   :#0 
+    timer3_interrupt      : #1 
+    abort_l               : #1 
+
+F: highPriorityInt        :#1 
+    timer1_interrupt      : #1 
+    abort_h               : #1 
+
+F: ring_init              :#1 
+
+F: ring_pop1              :#2 
+    error_check           : #4 
+
+F: ring_pop2              :#2 
+
+F: adc_sample             :#1 
+    error_h               : #1 
+
+F: adc_init               :#1 
+    ring_init             : #1 
+
+F: adc_start              :#2 
+
+F: adc_stop               :#2 
+
+F: adc_test               :#1 
+    adc_start             : #2 
+    ring_pop1             : #2 
+    ring_pop2             : #2 
+    adc_stop              : #2 
+
+F: led_control            :#1 
+
+F: error_display          :#1 
+
+F: set_error              :#12
+
+F: error_h                :#1 
+
+F: error_check            :#4 
+
+F: status_bit             :#1 
+
+F: timer1_interrupt       :#1 
+    adc_sample            : #1 
+
+F: timer3_interrupt       :#1 
+    status_bit            : #1 
+    error_display         : #1 
+    led_control           : #1 
+
+F: handle_reset           :#1 
+    abort_b               : #1 
+
+F: PIC_setup              :#1 
+
+F: mmc_spi_tx             :#10
+
+F: mmc_spi_tx_16          :#4 
+
+F: mmc_spi_read           :#3 
+    set_error             : #12
+    set_error             : #12
+    mmc_spi_tx            : #10
+
+F: mmc_command            :#5 
+    mmc_spi_tx            : #10
+    mmc_spi_tx            : #10
+    mmc_spi_tx            : #10
+    mmc_spi_tx            : #10
+    mmc_spi_tx            : #10
+    mmc_spi_tx            : #10
+    mmc_spi_read          : #3 
+
+F: mmc_init               :#1 
+    mmc_spi_tx            : #10
+    mmc_command           : #5 
+    set_error             : #12
+    mmc_command           : #5 
+    set_error             : #12
+    set_error             : #12
+
+F: mmc_write_blocks       :#2 
+    mmc_command           : #5 
+    set_error             : #12
+    mmc_command           : #5 
+    set_error             : #12
+    mmc_command           : #5 
+    set_error             : #12
+    mmc_spi_tx            : #10
+    ring_pop1             : #2 
+    mmc_spi_tx_16         : #4 
+    ring_pop2             : #2 
+    mmc_spi_tx_16         : #4 
+    mmc_spi_tx_16         : #4 
+    mmc_spi_tx_16         : #4 
+    mmc_spi_read          : #3 
+    set_error             : #12
+    mmc_spi_tx            : #10
+    mmc_spi_read          : #3 
+    set_error             : #12
+
+F: mmc_term               :#1 
+
+F: wait                   :#1 
+
+F: eprom_read_1           :#2 
+
+F: eprom_write_1          :#2 
+
+F: eprom_read             :#1 
+    eprom_read_1          : #2 
+    eprom_read_1          : #2 
+
+F: eprom_write            :#1 
+    eprom_write_1         : #2 
+    eprom_write_1         : #2 
+
+F: main                   :#0 
+    handle_reset          : #1 
+    PIC_setup             : #1 
+    wait                  : #1 
+    set_error             : #12
+    adc_init              : #1 
+    adc_test              : #1 
+    eprom_read            : #1 
+    eprom_write           : #1 
+    mmc_init              : #1 
+    adc_start             : #2 
+    mmc_write_blocks      : #2 
+    error_check           : #4 
+    adc_stop              : #2 
+    error_check           : #4 
+    mmc_write_blocks      : #2 
+    mmc_term              : #1 
+    error_check           : #4 
+    set_error             : #12
+
+F: await                  :#5 
+
+F: abort_x                :#4 
+    await                 : #5 
+    await                 : #5 
+
+F: abort_mark             :#2 
+    await                 : #5 
+    await                 : #5 
+
+F: pin_display            :#1 
+    abort_mark            : #2 
+    abort_mark            : #2 
+    await                 : #5 
+    abort_x               : #4 
+    abort_x               : #4 
+    abort_x               : #4 
+    abort_x               : #4 
+
+F: abort                  :#3 
+    pin_display           : #1 
+
+F: abort_h                :#1 
+    abort                 : #3 
+
+F: abort_l                :#1 
+    abort                 : #3 
+
+F: abort_b                :#1 
+    abort                 : #3 
+
+
+ L1  highPriorityIntServer
+ L2    highPriorityInt
+ L3      timer1_interrupt
+ L3        adc_sample [T-GOTO]
+ L4          error_h
+ L3      abort_h
+ L3        abort [T-GOTO]
+ L4          pin_display
+ L5            abort_mark
+ L6              await
+ L5              await [T-GOTO]
+ L5            abort_mark ..
+ L5            await
+ L5            abort_x
+ L6              await
+ L5              await [T-GOTO]
+ L5            abort_x ..
+ L5            abort_x ..
+ L4            abort_x [T-GOTO] ..
+
+ L1  lowPriorityIntServer
+ L2    timer3_interrupt
+ L3      status_bit
+ L2      error_display [T-GOTO]
+ L2      led_control [T-GOTO]
+ L2    abort_l
+ L2      abort [T-GOTO]
+ L3        pin_display
+ L4          abort_mark
+ L5            await
+ L4            await [T-GOTO]
+ L4          abort_mark ..
+ L4          await
+ L4          abort_x
+ L5            await
+ L4            await [T-GOTO]
+ L4          abort_x ..
+ L4          abort_x ..
+ L3          abort_x [T-GOTO] ..
+
+ L0  main
+ L1    handle_reset
+ L1      abort_b [T-GOTO]
+ L1        abort [T-GOTO]
+ L2          pin_display
+ L3            abort_mark
+ L4              await
+ L3              await [T-GOTO]
+ L3            abort_mark ..
+ L3            await
+ L3            abort_x
+ L4              await
+ L3              await [T-GOTO]
+ L3            abort_x ..
+ L3            abort_x ..
+ L2            abort_x [T-GOTO] ..
+ L1    PIC_setup
+ L1    wait
+ L1    set_error
+ L1    adc_init
+ L1      ring_init [T-GOTO]
+ L1    adc_test
+ L2      adc_start
+ L2      ring_pop1
+ L3        error_check
+ L2      ring_pop2
+ L1      adc_stop [T-GOTO]
+ L1    eprom_read
+ L2      eprom_read_1
+ L2      eprom_read_1
+ L1    eprom_write
+ L2      eprom_write_1
+ L1      eprom_write_1 [T-GOTO]
+ L1    mmc_init
+ L2      mmc_spi_tx
+ L2      mmc_command
+ L3        mmc_spi_tx
+ L3        mmc_spi_tx
+ L3        mmc_spi_tx
+ L3        mmc_spi_tx
+ L3        mmc_spi_tx
+ L3        mmc_spi_tx
+ L3        mmc_spi_read
+ L4          set_error
+ L4          set_error
+ L4          mmc_spi_tx
+ L2      set_error
+ L2      mmc_command ..
+ L2      set_error
+ L1      set_error [T-GOTO]
+ L1    adc_start
+ L1    mmc_write_blocks
+ L2      mmc_command
+ L3        mmc_spi_tx
+ L3        mmc_spi_tx
+ L3        mmc_spi_tx
+ L3        mmc_spi_tx
+ L3        mmc_spi_tx
+ L3        mmc_spi_tx
+ L3        mmc_spi_read
+ L4          set_error
+ L4          set_error
+ L4          mmc_spi_tx
+ L2      set_error
+ L2      mmc_command ..
+ L2      set_error
+ L2      mmc_command ..
+ L2      set_error
+ L2      mmc_spi_tx
+ L2      ring_pop1
+ L3        error_check
+ L2      mmc_spi_tx_16
+ L2      ring_pop2
+ L2      mmc_spi_tx_16
+ L2      mmc_spi_tx_16
+ L2      mmc_spi_tx_16
+ L2      mmc_spi_read
+ L3        set_error
+ L3        set_error
+ L3        mmc_spi_tx
+ L2      set_error
+ L2      mmc_spi_tx
+ L2      mmc_spi_read ..
+ L2      set_error
+ L1    error_check
+ L1    adc_stop
+ L1    error_check
+ L1    mmc_write_blocks ..
+ L1    mmc_term
+ L1    error_check
+ L1    set_error
+

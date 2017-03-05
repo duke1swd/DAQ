@@ -1,0 +1,47 @@
+/*
+ * This lays out how eprom is used.
+ */
+
+#define	EPROM_CURRRENT_MODE	0	// currently loaded module 
+
+#define	EPROM_ERR1_CODE		1	// error code
+#define	EPROM_ERR1_SUBCODE	2	// error code
+#define	EPROM_ERR1_DETAIL	3	// error detail status byte
+
+#define	EPROM_ERR2_CODE		4	// error code
+#define	EPROM_ERR2_SUBCODE	5	// error code
+#define	EPROM_ERR2_DETAIL	6	// error detail status byte
+
+#define	EPROM_TRIGGER_THRESH	7	// threshold value for triggering
+#define	EPROM_ATMEL_READY	8	// true if prepare is not needed.
+
+#define	EPROM_VOLTAGE_THRESH	9	// min voltage in battery tester
+
+
+/*
+ * Bytes 10 thorugh 15 are currently unused.
+ */
+
+/*
+ * The next 88 bytes hold the file names of the bootable modules.
+ */
+#define	EPROM_MODE_LEN		11	// length of a file name.
+#define	EPROM_MODE_1		16
+#define	EPROM_MODE_2		(EPROM_MODE_1 + EPROM_MODE_LEN * 1)
+#define	EPROM_MODE_3		(EPROM_MODE_1 + EPROM_MODE_LEN * 2)
+#define	EPROM_MODE_4		(EPROM_MODE_1 + EPROM_MODE_LEN * 3)
+#define	EPROM_MODE_5		(EPROM_MODE_1 + EPROM_MODE_LEN * 4)
+#define	EPROM_MODE_6		(EPROM_MODE_1 + EPROM_MODE_LEN * 5)
+#define	EPROM_MODE_7		(EPROM_MODE_1 + EPROM_MODE_LEN * 6)
+#define	EPROM_DATA_NAME		(EPROM_MODE_1 + EPROM_MODE_LEN * 7)
+
+/*
+ * Programs can put a message into eprom.
+ * When the mode2com module is loaded it can print it.
+ *
+ * The message starts at byte 104 and ends on or before byte 255.
+ * Terminated by end of eprom or by '\0' or 0xff.
+ */
+
+#define	EPROM_MSG		(EPROM_MODE_1 + EPROM_MODE_LEN * 8)
+#define	EPROM_MSG_BYTES		(255-MSG)

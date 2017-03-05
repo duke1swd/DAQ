@@ -1,0 +1,48 @@
+See 28pins.txt for PIC pinout.
+
+External connectors:
+ 3 4-pin AMP connectors for sensors
+ 1 4-pin AMP connector for 2 isolated digital inputs
+ 1 4-pin AMP connector for USB
+
+Connections from the board to external I/O are made through
+screw terminals with two exceptions.  The SD card plugs into
+a surface mount holder.  The USB connector on the board is
+standard USB jack.
+
+ Power inside the box or external through a connector?
+
+Controls
+ Mode switch (at last 5 positions, 6 prefered)
+ Status LED
+ Error LED
+ Run/Stop switch
+ Execute (reset) button
+ Power switch
+
+The mode switch's position is designed to be wired as a set of
+resistors and sensed with an analog input.  Ideally position 0,
+boot from USB, will produce a voltage that corresponds to logic
+level 0, while all other positions will be different voltages,
+all at logic level 1.  The idea to allow the USB boot loader
+to sense this pin in digital mode.  This is requested because
+the boot loader is short on program memory space.
+
+If this is hard to do or unreliable I'll find a way to fit a
+few more instructions into the boot loader.
+
+Screw terminals
+
+3: Filtered signal input: 3-pin screw terminals
+1: Unfiltered signal input: 3-pin
+1: load cell: 3: 2-pin
+2: battery connection: 2-pin
+1: record/stop 2-pin
+1: mode: 3-pin
+2: isolated inputs: 2-pin
+2: raw: 2-pin
+
+total:
+5x 3-pin
+10x 2-pin
+

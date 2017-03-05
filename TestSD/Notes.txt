@@ -1,0 +1,10 @@
+This project is intended to be USB loaded into the HybridSky DAQ board,
+version 1.0
+
+This project demonstrates the SD memory card routines.
+
+Stephen Daniel
+9/21/08
+
+
+simplewrite.c writes one sector.

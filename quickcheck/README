@@ -1,0 +1,32 @@
+This program allows for quick operational checks of the sensors.
+
+Initialization:
+  Blink both LEDs at 12 HZ 5 times.
+
+It loops forever.
+
+If either opto isolator is on then it lights the red LED.
+
+If any sensor changes by 2 or more from the average of its last 10
+samples then that sensor number (numbered 0, 1, 2) is blinked on the
+green LED.  Sensor zero is signaled by a long dash.
+
+The signaling device (on raw0) is the OR of the two LEDs plus the
+record stop switch.
+
+NOTE 1: Analog input not yet implemented.  
+
+NOTE 2:  If Very Quick Check (VQC) mode the analog sensors are
+not sampled.  Only Opto isolators and record/stop are sampled.
+LEDs and RAW-0 are still driven.  In the current NYI state this
+means that RAW-0 is only driven off the red LED.
+
+
+NOTE 3:
+At the moment, not much of this is implemented.
+
+In VQC mode, the RED LED tracks RECORD/STOP,
+the GREEN LED blinks,
+and RAW_0 tracks the binary OR of RECORD/STOP, OPT_0, and OPT_1
+
+VQC mode is available as DAQ mode 6

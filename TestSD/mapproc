@@ -1,0 +1,47 @@
+#!/bin/sh
+#
+# This script gets the length (and order) of the SD-SPI.c modules.
+#
+F1=a.map
+first=1
+awk '
+BEGIN	{
+		state=0
+	}
+
+/SD-SPI.c/ {
+		if (state == 1) 
+			state = 2
+		if (state == 2 || state == 3)  {
+			print $1 " " $2
+			state = 2
+		}
+	}
+
+/^ *___/ {
+		if (state == 3)
+			state = 1
+	}
+
+	{
+		if (state > 1)
+			state++
+		if (state == 4)
+			print $1 " " $2
+	}
+
+/by Addr/ {
+		state=1
+	}
+' $F1 | while read x
+do
+	set $x
+	NAME2=$1
+	A2=`./hextodec $2`
+	if [ $first -eq 0 ] ; then
+		echo $NAME $A1 `expr $A2 - $A1`
+	fi
+	first=0
+	NAME=$NAME2
+	A1=$A2
+done

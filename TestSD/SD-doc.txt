@@ -1,0 +1,122 @@
+I believe this list is all the entry points one needs
+for the SD card driver.
+
+Initialization:  First call InitIO, then call MediaInitialize
+
+
+/******************************************************************************
+ * Function:        DWORD ReadCapacity(void)
+ *
+ * PreCondition:    MDD_MediaInitialize() is complete
+ *
+ * Input:           void
+ *
+ * Output:          DWORD - size of the "disk" (in sectors, I think)
+ *
+ * Side Effects:    None
+ *
+ * Overview:        None
+ *
+ * Note:            None
+ *****************************************************************************/
+DWORD MDD_SDSPI_ReadCapacity()
+
+/******************************************************************************
+ * Function:        void MDD_SDSPI_InitIO(void)
+ *
+ * PreCondition:    None
+ *
+ * Input:           void
+ *
+ * Output:          void
+ *
+ * Side Effects:    None
+ *
+ * Overview:        None
+ *
+ * Note:            None
+ *****************************************************************************/
+void MDD_SDSPI_InitIO (void)
+
+/******************************************************************************
+ * Function:        BYTE MDD_SDSPI_MediaInitialize(void)
+ *
+ * PreCondition:    None
+ *
+ * Input:           None
+ *
+ * Output:          TRUE                    - Everything is fine
+ *                  FALSE      - Communication was not established
+ *
+ * Overview:        MediaInitialize initializes the media card and supporting variables.
+ *
+ * Note:            
+ *****************************************************************************/
+BYTE MDD_SDSPI_MediaInitialize(void)
+
+/******************************************************************************
+ * Function:        void MDD_SDSPI_ShutdownMedia(void)
+ *
+ * PreCondition:    None
+ *
+ * Input:           void
+ *
+ * Output:          None
+ *
+ * Side Effects:    None
+ *
+ * Overview:        Turn off the card
+ *
+ * Note:            None
+ *****************************************************************************/
+void MDD_SDSPI_ShutdownMedia(void)
+
+/******************************************************************************
+ * Function:        BYTE MDD_SDSPI_SectorRead(DWORD sector_addr, BYTE *buffer)
+ *
+ * PreCondition:    None
+ *
+ * Input:           sector_addr - Sector address, each sector contains 512-byte
+ *                  buffer      - Buffer where data will be stored, if NULL do
+ *                                not store the data anywhere
+ *
+ * Output:          TRUE      - Sector read
+ *               FALSE      - Sector could not be read
+ *
+ * Side Effects:    None
+ *
+ * Overview:        SectorRead reads 512 bytes of data from the card starting
+ *                  at the sector address specified by sector_addr and stores
+ *                  them in the location pointed to by 'buffer'.
+ *
+ * Note:            The card expects the address field in the command packet
+ *                  to be a byte address. Therefore the sector_addr must first
+ *                  be converted to byte address. This is accomplished by
+ *                  shifting the address left 9 times.
+ *****************************************************************************/
+BYTE MDD_SDSPI_SectorRead(DWORD sector_addr, BYTE* buffer)
+
+/******************************************************************************
+ * Function:        BYTE MDD_SDSPI_SectorWrite(DWORD sector_addr, BYTE *buffer, BYTE allowWriteToZero)
+ *
+ * PreCondition:    None
+ *
+ * Input:           sector_addr - Sector address, each sector contains 512 bytes
+ *                  buffer      - Buffer that data will be read from
+ *               allowWriteToZero   - allows write to the MBR sector
+ *
+ * Output:          TRUE      - Sector written
+ *               FALSE      - Sector could not be written
+ *
+ * Side Effects:    None
+ *
+ * Overview:        SectorWrite sends 512 bytes of data from the location
+ *                  pointed to by 'buffer' to the card starting
+ *                  at the sector address specified by sector_addr.
+ *
+ * Note:            The card expects the address field in the command packet
+ *                  to be byte address. Therefore the sector_addr must first
+ *                  be converted to byte address. This is accomplished by
+ *                  shifting the address left 9 times.
+ *****************************************************************************/
+BYTE MDD_SDSPI_SectorWrite(DWORD sector_addr, BYTE* buffer, BYTE allowWriteToZero)

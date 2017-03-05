@@ -1,0 +1,86 @@
+#!/bin/sh
+#
+# This script pulls the data off the DAQ and saves it
+#
+# Parameter 1 is the destination directory.
+# If it is missing then the current directory is used instead
+#
+
+DATAFILE=DATA
+DATAPATH="/cygdrive/e /cygdrive/f"
+DIR='.'
+
+#
+# Usage Message
+#
+function usage
+{
+	echo Usage: $0 '[<output directory (current)>]' 1>&2
+	exit 1
+}
+
+#
+# Process the data file
+#
+function process
+{
+	n=0
+	while true;
+	do
+		if [ $n -lt 10 ] ; then
+			n=0$n
+		fi
+		DEST=${DATAFILE}.$n
+		if [ ! -f ${DEST} ] ; then
+			cp  $1 ${DEST}
+			read3data  ${DEST} testdata.$n.csv
+			gzip ${DEST}
+			exit 0
+		fi
+	done
+}
+
+if [ $# -eq 1 ] ; then
+	DIR=$1
+fi
+
+if [ $DIR = '-h' ] ; then
+	usage
+fi
+
+if [ $DIR = '--help' ] ; then
+	usage
+fi
+
+if [ $# -gt 1 ] ; then
+	usage
+fi
+
+cd $DIR
+
+nfiles=0
+for p in ${DATAPATH}
+do
+	if [ -f $p/${DATAFILE} ] ; then
+		nfiles=`expr $nfiles + 1`
+	fi
+done
+
+if [ $nfiles -eq 0 ] ; then
+	echo Could not find data file.  Check connections. 1>&2
+	exit 1
+fi
+
+if [ $nfiles -gt 1 ] ; then
+	echo Ambiguous data file path.  Check for extraneous devices. 1>&2
+	exit 1
+fi
+
+for p in ${DATAPATH}
+do
+	if [ -f $p/${DATAFILE} ] ; then
+		process $p/${DATAFILE}
+		exit 0
+	fi
+done
+

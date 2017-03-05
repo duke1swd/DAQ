@@ -1,0 +1,79 @@
+This code implements a simple-minded CLI.
+
+Each command is a single letter, with some number of numerical arguments
+separated by commas. Numeric arguments are at most 2 characters long.
+
+Whitespace is completely ignored.
+
+All commands are case-sensitive.
+
+Commands:
+
+EPROM commands
+w,a,v	write value v to data eprom location a.  Both arguments are in hex.
+
+r,a	report the value of data eprom location a.  Arg is in hex.
+
++	report the value of the next eprom location
+
+Time Of Day Commands
+*	report the date and time.  Next command may modify TOD.
+
+s	set the seconds to zero and get the clock running.
+	Also starts the backup capacitor charging.
+
+h	set the hours and minutes (2 args, decimal)
+	hours are 0-23.  Minutes are 0-59
+
+m	set the month and day (2 args, decimal)
+	months are 1-12.  Day is 1-31
+
+y	set the year.  Range is 0-99, for years 2000 to 2099.
+
+Other Commands
+R	print the message stored in eprom.
+
+e	echo the args.  Both are assumed to be hex.
+
+c	calibrate.  In the final CLI this will spit out ADC values.  In
+	this version it just prints some stuff.  Keeps going until any
+	character is typed on the keyboard.
+
+NOTE: None of the 'C' commands are implemented yet.
+C	calibrate the time base.  Multiple forms
+C,0	Report the bias.
+C,0,n	Set the bias to n ticks.  n is a signed decimal integer. 
+	A positive N is used when the PIC crystal is too fast.
+	A negative N is used when the PIC crystal is too slow.
+C,1	Calibrate the time base against to TOD clock for about 10 minutes
+	This command calculates the proper bias but does not set it.
+C,2	Calibrate the time base against a 1 Hz precision signal on RAW0
+	for about 10 minutes.
+	This command calculates the proper bias but does not set it.
+
+E	print the most recent errors
+
+M,n	print the mode file name for mode n
+M,n,xxx	set the mode file name for mode n
+M,8,xxx	set the name of the data file.
+
+p,n	print the state op opto-isolator port 0 or 1
+
+b	print the battery voltages
+
+H	print "Hello World."
+
+
+Internally there are several things going on.
+
+The input side is driven off the USB by calls to inputPoll().
+inputPoll() is responsible for echoing characters as they are typed
+and then putting them into the input buffer.  Backspace and linekill
+characters are processed as they are typed.
+
+Any character that doesnt fit in the buffer or cannot be echod
+is discarded from the input stream.
+
+Whenever inputPoll() sees a return or newline (^%J or ^M) it
+calls parse().   Parse takes the input buffer, cracks out the
+command specifier, and calls the appropriate routine.

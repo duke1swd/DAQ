@@ -1,0 +1,4 @@
+This code makes the DAQ board act like a USB drive.
+This is based on the USB 2.3 framework, downloaded 10/2008
+
+Works

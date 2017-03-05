@@ -1,0 +1,4 @@
+This project is the first hot test of the plugging the atmel MMC
+form-factor data-flash cards into the DAQ 1.0 board.
+
+Goal is to exchange a few bytes with the card and light the green light.

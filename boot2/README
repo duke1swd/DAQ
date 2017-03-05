@@ -1,0 +1,70 @@
+This module is the second stage boot loader for the
+HybridSky.com DAQ board, version 1.0.
+
+This module is loaded at location 0x800.  Control is transfered
+here after the first stage boot loader determins that no USB
+boot is required.
+
+This module contains 2 externally callable entry points.
+
+   sd_init()
+	This routine initializes the SD memory card and verifies
+	correct operation.  It does not return unless it is
+	successful.  If it fails it blinks an error code on
+	the LED display.
+
+   sd_read()
+	This routine reads a sector (512 bytes) from the
+	indicated location on SD into the buffer.  No return
+	on error.
+
+
+ERROR CODES
+	1: could not init the SD card
+	2: could not read the SD card
+	3: could not find boot file
+	4: boot file format error
+
+The green LED blinks once per block read during boot loading.
+If no boot loading is required, the green LED is flashed
+once anyway.
+
+EPROM usage
+
+See eprommap.h for details.  The file names to boot are
+stored here.
+
+SD usage.
+
+The SD is assumed to be a fat32 formatted SD, no bigger than
+2GB in size.
+
+The boot files must be stored in the root directory.  The boot
+file names are stored in canonicalized format.	Mode2com is
+responsible for placing them there in the correct format.
+
+BOOT Linkage:
+This program makes no use of the first stage (USB) boot.
+The code there is too tightly linked into the USB framework.
+
+BOOT file format.
+
+Each boot file consists of a number of 512 byte records.
+If the first byte of the record is zero then this record is an
+EOF record.  Otherwise, the first byte is the number of bytes
+of program memory that will be loaded.	The count is unsigned
+allowing up to 255 bytes of data per 512 byte record.
+
+The next two bytes of the record are the address in program
+memory.
+
+There are potentially a lot of unused bytes in the records.
+
+There is no way to initialize data memory or configuration memory.
+
+
+PROGRAM STRUCTURE
+
+main.c defines includes all necessary includes, defines the
+hardware config and handles linkages.  All of the code
+is included from main.c

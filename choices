@@ -1,0 +1,56 @@
+Goal
+  I'd like all of the following:
+	FAT support in the device
+	USB support
+	SD support
+	DIP technology
+	cheap build tools.
+	Microchip PIC18 technology
+
+I don't know if I can manage all of these at once.
+
+Option space:
+
+FAT support
+	Version    Compiler    Size
+	MC18       $0          31K
+	MC18       $500        18K
+	FF006      $0          17,262 code
+	FF006      $500         9,734 code
+
+	Note: read-only versions would be smaller
+
+	The SD card support is another 4K ($0 compiler)
+	Bootloader is 2K (either compiler)
+	USB support is unknown
+
+	2+18+4+USB = 24 + USB.  Might just fit in a 32K chip.
+
+
+	MC's fat support also requires 2K of data space,
+	which won't fit in the chip either.  So TinyFF is the
+	choice.
+
+Compiler options
+ - MCC18 $0:  code is large, but language is complete
+ - MCC18 $500: goodness
+ - CC8E  $0: no support for arbitrary bit fields,
+             no support for anonymous substructures
+	     no support for 32-bit integers
+ - CC8E  $320 adds support for 32-bit integers
+
+ 	The CC8E compiler's lack of support for full ansi C
+	plus microchip extensions makes it not workable.
+	Only real options are MCC18 freeware or $500 version
+
+
+Chip Technology
+ - In PDIP we have 24K and 32K chips, with only 2K of RAM.
+ - In TQFP and LQFP we have up to 128K with lots of RAM.
+
+ 	PDIP chips are more expensive per feature, and closer to obsolete
+	I have the entire PDIP tool chain
+
+	QFP chips would require proto and demo boards, plus solder tools
+	Also, I have no idea how to program one from scratch.
+	Would require ICSP?

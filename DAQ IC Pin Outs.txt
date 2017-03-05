@@ -1,0 +1,58 @@
+Pinout for proposed 18F2455 / 18F2550 implementation.
+
+Pins 1-14 are on the left side of the chip, presumed to face
+towards the analog side of the board.  Pins 28-15 are on the
+right side of the chip and are used for digital functions.
+
+PIC	Signal	Ext
+Pin	Name	Pin	Function
+ 1	MCLR		Wired to an "execute mode" push button (inverted)
+ 2	RA0		Input from mode select switch
+ 3	RA1		Record/stop switch
+ 4	RA2		Output to red LED
+ 5	RA3		Output to green LED
+ 6	RA4		Raw pin to outside world
+ 7	RA5	ADC 15	Clock to A/D
+ 8	VSS		VSS
+ 9	OSC2		Crystal
+10	OCS2		Crystal
+11	RC0	ADC 14	Chip select to A/D
+12	RC1	ADC 13	Data from A/D
+13	RC2	ADC 12	Data to A/D
+14	Vusb		.022 uf cap
+
+28	RB7		Opto-isolated digital input
+27	RB6		Opto-isolated digital input
+26	RB5		Raw pin to outside world
+25	RB4	TOD 5	Chip select to TOD chip
+24	RB3	TOD 6	Data to/from DS1302 TOD chip
+23	RB2	TOD 7	Clock to TOD chip
+22	SCK	SD 5	Clock to SD memory card
+21	SDI	SD 7	Data from SD
+20	VDD		VDD (5 volts)
+19	VSS		VSS
+19	SDO	SD 2	Data to SD
+17	RC6	SD 1	Chip select to SD
+16	D+		Data to/from USB
+15	D-		Data to/from USB
+
+External Connections.
+MCLR	MCLR is an inverted signal.  Should be held high,
+	pushing button brings it to logic 0.
+
+RA0	Mode select switch is a rotory switch with multiple
+	positions.  The switch is wired with 10K resistors to
+	act like a crude potentiometer between VSS and VDD.
+	Center tap comes out to the PIC pin.
+
+RA1	Record/Stop switch is SPST.  In "stop" mode the switch
+	is open and the signal is logic 0 (pulled down through
+	a 10K resistor).  In record mode the switch is closed,
+	and the signal is logic 1.
+
+RA2,3	The LEDs are directly driven from the PIC, which
+	provides 5 volts at up to 25 milliamps.
+	
+RA4	Raw pins come out to a screw terminal.	The terminal
+RB5	should be a pair, pin and ground.  If the pin is not
+	in use then a wire should connect the pin to ground.

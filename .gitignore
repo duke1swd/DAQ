@@ -1,0 +1,14 @@
+*.asm
+*.cod
+*.hex
+*.lst
+*.occ
+*.exe
+*.o
+*.map
+*.mcs
+*.mcw
+*.mcp
+*.bak
+good/
+SimTest/
