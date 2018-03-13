@@ -1,4 +1,4 @@
-hexcrack=../utilities/hexcrack.exe
+hexcrack=../hex/hexcrack.exe
 TD=/cygdrive/d
 
 modes= mode1.daq mode2.daq mode3.daq mode2com.hex boot2.hex usbdrive.hex \

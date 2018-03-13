@@ -1,0 +1,37 @@
+This program takes a hex file for a PIC 18 and converts
+it to a binary format.
+
+This program is intended to pre-process images that are intended
+for the simple FAT bootloader used by the Hybridsky.com data
+capture board.
+
+The input format is described here: http://en.wikipedia.org/wiki/.hex
+
+The output format is a series of 512 byte records.
+
+The first record is the header.
+
+Byte 0: Magic number.  Must be 0x44
+Byte 1: Magic number.  Must be 0x55
+
+Byte 2: Program ID number.
+Byte 3: Program version number.
+
+Byte 4: Load Address, high order 8 bits.
+Byte 5: Load Address, low order 8 bits.
+
+Byte 6: Count of 512-byte data records that follow.
+Byte 7: Number of 16-bit words in the last record.
+
+Bytes 8 through 511:  Reserved, but be zero.
+
+The remaining records are binary data to be loaded into memory.
+
+The boatloader reserves the right to require fixed values for the load
+address bytes.
+
+If the program number does not match what is expected the boot loader
+will abort.
+
+If the program number and version number match what is already loaded
+the boot loader will execute the program without reloading it.
