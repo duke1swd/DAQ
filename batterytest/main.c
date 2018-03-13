@@ -71,6 +71,7 @@
 #pragma bit OPTO_1		@ PORTB.7	// opto input 1
 #pragma	bit RAW_0		@ PORTA.4	// raw I/O pin 0
 #pragma	bit RAW_1		@ PORTB.5	// raw I/O pin 1
+#define	EXT_RED		RAW_1
 
 #pragma bit RECORD_STOP		@ PORTA.1
 

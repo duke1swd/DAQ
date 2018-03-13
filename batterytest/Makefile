@@ -1,4 +1,4 @@
-CC8E="C:\Progra~1\bknd\CC8E"
+CC8E="C:\Progra~2\bknd\CC8E"
 RS=../atmelrun
 
 CC=${CC8E}/CC8E.exe
