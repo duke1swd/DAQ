@@ -2,12 +2,12 @@ CC8E=../utilities/CC8E
 
 ifdef SYSTEMROOT
 CC8E="C:\Progra~2\bknd\CC8E"
+CC=${CC8E}/CC8E.exe
 else
 CC8E=/home/duke1swd/software/bknd/CC8E
+CC=wine ${CC8E}/CC8E.EXE
 endif
 
-CC=${CC8E}/CC8E.exe
-CC=wine ${CC8E}/CC8E.EXE
 
 CFLAGS= -CC -fINHX32 -p18F2455 -I${CC8E} -L -cae
 
