@@ -1,7 +1,7 @@
 //#define	TEST_NO_WRITE
 //#define	DEBUG_3
 #define	OLD_BLINKY		// enable the bug.  used for testing fault insertion.
-//#define	BLINKY_FAULT_INJECT	// inject the bug by tripping automatically at first bad time
+#define	BLINKY_FAULT_INJECT	// inject the bug by tripping automatically at first bad time
 
 /*
  * This module is the guts of the data gather routine.
@@ -324,14 +324,6 @@ adc_isr(void)
 	}
 #endif
 
-#ifdef BLINKY_FAULT_INJECT
-	if (!triggered && triggerable) {
-		//if (samples_till_switch == SAMPLES_PER_BUFFER)
-		if (samples_till_switch == 1)
-			triggered = 1;
-	}
-#endif
-
 	/*
 	 * If data capture is running, we are done.
 	 */
@@ -342,6 +334,9 @@ adc_isr(void)
 	 * Trigger on any input on the opto-isolated inputs.
 	 */
 	if ((!OPTO_0 || !OPTO_1) && triggerable)
+#ifdef BLINKY_FAULT_INJECT
+	    if (buffer_switched)
+#endif
 		triggered = 1;
 
 #ifdef NOTWORKING
