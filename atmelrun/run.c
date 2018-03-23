@@ -1,7 +1,7 @@
 //#define	TEST_NO_WRITE
 //#define	DEBUG_3
 #define	OLD_BLINKY		// enable the bug.  used for testing fault insertion.
-#define	BLINK_FAULT_INJECT	// inject the bug by tripping automatically at first bad time
+//#define	BLINKY_FAULT_INJECT	// inject the bug by tripping automatically at first bad time
 
 /*
  * This module is the guts of the data gather routine.
@@ -299,13 +299,6 @@ adc_isr(void)
 	*store_p++ = adc_value.high8;
 #endif // THREECHANNEL
 
-#ifdef BLINKY_FAULT_INJECT
-	if (!triggered && triggerable && ) {
-		if (samples_till_switch == 1)
-			triggered = 1;
-	}
-#endif
-
 	/*
 	 * Moving to next buffer?
 	 */
@@ -327,6 +320,14 @@ adc_isr(void)
 	/* This is useful when running the DAQ in the lab. */
 	if (!triggered && triggerable) {
 		if (samples_till_switch == 16)
+			triggered = 1;
+	}
+#endif
+
+#ifdef BLINKY_FAULT_INJECT
+	if (!triggered && triggerable) {
+		//if (samples_till_switch == SAMPLES_PER_BUFFER)
+		if (samples_till_switch == 1)
 			triggered = 1;
 	}
 #endif
