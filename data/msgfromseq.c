@@ -13,19 +13,31 @@ char *myname;
 char *input_file_name;
 FILE *input;
 int debug;
+static int bit_time;
+static int seq_log;
+
+#define	MIN_BIT_TIME	3
+#define	MAX_BIT_TIME	20
+#define	BIT_TOLERANCE	1	// bit times are allowed to be off by this many samples
 
 static void
 set_defaults()
 {
 	debug = 0;
+	bit_time = 5;	// DAQ is 5KHz, bit time is 1ms
+	seq_log = 0;
 }
 
 static void
 usage()
 {
 	set_defaults();
-	fprintf(stderr, "Usage: %s [-d] <input file>\n",
+	fprintf(stderr, "Usage: %s [options] <input file>\n",
 		myname);
+	fprintf(stderr, "Options:\n");
+	fprintf(stderr, "\t-b <bit time (%d)>\n", bit_time);
+	fprintf(stderr, "\t-d (increment debug level)\n");
+	fprintf(stderr, "\t-L (process sequencer log message)\n");
 	exit(1);
 }
 
@@ -40,8 +52,14 @@ grok_args(int argc, char **argv)
 	myname = *argv;
 	set_defaults();
 
-	while ((c = getopt(argc, argv, "dh")) != EOF)
+	while ((c = getopt(argc, argv, "db:Lh")) != EOF)
 	switch (c) {
+	    case 'b':
+		bit_time = atoi(optarg);
+		break;
+	    case 'L':
+	    	seq_log++;
+		break;
 	    case 'd':
 	    	debug++;
 		break;
@@ -50,6 +68,16 @@ grok_args(int argc, char **argv)
 	    default:
 	    	usage();
 		break;
+	}
+
+	if (bit_time < MIN_BIT_TIME || bit_time > MAX_BIT_TIME) {
+		fprintf(stderr, "%s: bit time (%d) must be in the range "
+				"[%d-%d]\n",
+				myname,
+				bit_time,
+				MIN_BIT_TIME,
+				MAX_BIT_TIME);
+		errors++;
 	}
 
 	nargs = argc - optind;
@@ -74,10 +102,6 @@ grok_args(int argc, char **argv)
  */
 int lineno;
 
-#define	MIN_BIT_TIME	3
-#define	MAX_BIT_TIME	10
-
-static int bit_time;
 static int t_bit_time;
 static int field_width;
 static int acc;
@@ -100,6 +124,22 @@ static char msg_width;
 #define	MSG_SEARCH	0
 #define	MSG_RUN		1
 
+/*
+ * If we are looking for a message from the sequencer about the log
+ * it should look like this:
+ * 	SOM
+ * 	11 (1 byte long)
+ * 	log id (4 bytes long)
+ * 	EOM
+ */
+
+#define	SEQ_ID	11
+#define	SEQ_LOG_SOM	1
+#define	SEQ_LOG_SEQ_ID	2
+#define	SEQ_LOG_LOG_ID	3
+#define	SEQ_LOG_EOM	4
+static int seq_log_state;
+
 static void
 scanner_open()
 {
@@ -119,24 +159,27 @@ scanner(int o0, int o1)
 	    case SS_SEARCH:
 	    	if (o0 == 1 && o1 == 1) {
 			ss = SS_S_3;
-			bit_time = 1;
+			t_bit_time = 1;
 			if (debug) printf("%5d: S_3\n", lineno);
 		}
 		break;
 	    // how long does first bit last?
 	    case SS_S_3:
 	    	if (o0 == 1 && o1 == 1) {
-			bit_time++;
+			t_bit_time++;
 		} else if (o1 == 1 && o0 == 0) {
-			// got second start bit?
-			if (bit_time >= MIN_BIT_TIME && bit_time <= MAX_BIT_TIME) {
+			// got second start bit
+			t = t_bit_time - bit_time;
+			// Check length of first bit
+			if (t >= -BIT_TOLERANCE && t <= BIT_TOLERANCE) {
+				// length OK
 				ss = SS_S_2;
+				if (debug) printf("%5d: S_2 t_bit_time = %d\n", lineno, t_bit_time);
 				t_bit_time = 1;
-				if (debug) printf("%5d: S_2 bit_time = %d\n", lineno, bit_time);
 			} else {
 				// start bit too long or too short
 				ss = SS_SEARCH;
-				if (debug) printf("%5d: S_SEARCH bit_time = %d\n", lineno, bit_time);
+				if (debug) printf("%5d: S_SEARCH t_bit_time = %d\n", lineno, t_bit_time);
 			}
 		} else {
 			// didn't find second start bit after first start bit
@@ -150,7 +193,8 @@ scanner(int o0, int o1)
 			t_bit_time++;
 		} else if (o1 == 0 && o0 == 1) {
 			t = t_bit_time - bit_time;
-			if (t >= -1 && t <= 1) {
+			// check length of second start bit
+			if (t >= -BIT_TOLERANCE && t <= BIT_TOLERANCE) {
 				ss = SS_S_1;
 				if (debug) printf("%5d: S_1 t = %d\n", lineno, t);
 				t_bit_time = 1;
@@ -166,7 +210,7 @@ scanner(int o0, int o1)
 		}
 		break;
 	    case SS_S_1:
-	    	if (t_bit_time < bit_time && (o1 != 0 || o0 != 1)) {
+	    	if (t_bit_time < bit_time - BIT_TOLERANCE && (o1 != 0 || o0 != 1)) {
 			// third start bit ended prematurely
 			if (debug) printf("%5d: SS_SEARCH S_1 fail\n", lineno);
 			ss = SS_SEARCH;
@@ -220,16 +264,46 @@ scanner(int o0, int o1)
 		} else
 		// process message in acc!
 		if (msg_state == MSG_SEARCH && msg_width == 1 && acc == SOM) {
-			printf("MSG:\n");
+			// got an SOM message
+			if (seq_log) {
+				if (seq_log_state == SEQ_LOG_SOM)
+					seq_log_state = SEQ_LOG_SEQ_ID;
+				else {
+					printf("Unknown MSG looking for LOG ID\n");
+					seq_log_state = SEQ_LOG_SOM;
+				}
+			} else 
+				printf("MSG:\n");
 			msg_state = MSG_RUN;
 		} else if (msg_state == MSG_RUN && msg_width == 1 && acc == EOM) {
-			printf("\n");
+			if (seq_log) {
+				if (seq_log_state != SEQ_LOG_EOM)
+					printf("Unknown EOM looking for LOG ID\n");
+				seq_log_state = SEQ_LOG_SOM;
+			}
 			msg_state = MSG_SEARCH;
 		} else {
-			if (msg_state == MSG_SEARCH)
-				printf(" ?");
-			printf("\t");
-			printf("%8x %8d (%d)\n", acc, acc, msg_width);
+			if (seq_log_state == SEQ_LOG_SEQ_ID) {
+				if (msg_width == 1 && acc == SEQ_ID)
+					seq_log_state = SEQ_LOG_LOG_ID;
+				else
+					printf("SEQ LOG MESSAGE wrong ID (%d)\n", acc);
+			} else if (seq_log_state == SEQ_LOG_LOG_ID) {
+				if (msg_width == 4) {
+					printf("Sequence Log ID: %d\n", acc);
+					seq_log_state = SEQ_LOG_EOM;
+				} else
+					printf("SEQ_LOG_MESSAGE wrong width(%d)\n", msg_width);
+			} else {
+				if (seq_log) {
+					printf("Unexpected message\n");
+					seq_log_state = SEQ_LOG_SOM;
+				}
+				if (msg_state == MSG_SEARCH)
+					printf(" ?");
+				printf("\t");
+				printf("%8x %8d (%d)\n", acc, acc, msg_width);
+			}
 		}
 		// done.  Look for next one.
 		ss = SS_SEARCH;
@@ -256,6 +330,7 @@ doit()
 
 	state = 0;
 	lineno = 0;
+	seq_log_state = SEQ_LOG_SOM;
 
 	scanner_open();
 	while (fgets(lbuf, sizeof lbuf, input) > 0) {
