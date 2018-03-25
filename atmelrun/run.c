@@ -1,7 +1,7 @@
 //#define	TEST_NO_WRITE
 //#define	DEBUG_3
-#define	OLD_BLINKY		// enable the bug.  used for testing fault insertion.
-#define	BLINKY_FAULT_INJECT	// inject the bug by tripping automatically at first bad time
+//#define	OLD_BLINKY		// enable the bug.  used for testing fault insertion.
+//#define	BLINKY_FAULT_INJECT	// inject the bug by tripping automatically at first bad time
 
 /*
  * This module is the guts of the data gather routine.
