@@ -15,12 +15,20 @@ char *input_file_name;
 FILE *input;
 int csv;
 int plotfile;
+int ipa_mode;
+double chamber_threshold;
+double chamber_hysteresis; 
+int chamber_transient_time;
 
 static void
 set_defaults()
 {
 	csv = 0;
 	plotfile = 0;
+	ipa_mode = 0;
+	chamber_threshold = 75;	// PSI absolute
+	chamber_hysteresis = 5; // PSI
+	chamber_transient_time = 3;
 }
 
 static void
@@ -32,6 +40,7 @@ usage()
 	fprintf(stderr, "Options:\n");
 	fprintf(stderr, "\t-e (output in CSV format)\n");
 	fprintf(stderr, "\t-p (generate plot file commands)\n");
+	fprintf(stderr, "\t-I (analyze IPA flow performance)\n");
 	exit(1);
 }
 
@@ -44,9 +53,14 @@ grok_args(int argc, char **argv)
 
 	myname = *argv;
 	errors = 0;
+	set_defaults();
 
-	while ((c = getopt(argc, argv, "peh")) != EOF)
+	while ((c = getopt(argc, argv, "Ipeh")) != EOF)
 	switch(c) {
+	    case 'I':
+		ipa_mode++;
+		break;
+
 	    case 'p':
 	    	plotfile++;
 		break;
@@ -59,6 +73,12 @@ grok_args(int argc, char **argv)
 	    case '?':
 	    default:
 	    	usage();
+	}
+
+	if (ipa_mode && plotfile) {
+		fprintf(stderr, "%s: cannot use both -I and -p\n",
+				myname);
+		errors++;
 	}
 
 	nargs = argc - optind;
@@ -86,6 +106,12 @@ grok_args(int argc, char **argv)
 			perror("open");
 			errors++;
 		}
+	}
+
+	if (nargs > 1) {
+		fprintf(stderr, "%s: Can only process one input file.\n",
+				myname);
+		errors++;
 	}
 
 	if (errors)
@@ -194,6 +220,53 @@ process_line()
 	return 1;
 }
 
+// These three routines do the IPA analysis
+int chamber_on;			// boolean
+int chamber_on_count;
+int chamber_on_line;		// time, measured in lines of data
+int line;			// time, now.
+
+static void
+ipa_init()
+{
+	chamber_on = 0;
+	chamber_on_count = 0;
+	chamber_on_line = -1;	
+	line = 0;
+}
+
+static void
+ipa_process()
+{
+	double c_now;
+
+	c_now = count_to_psi(c2);
+	if (chamber_on && c_now < chamber_threshold - chamber_hysteresis) {
+		chamber_on = 0;
+		chamber_on_line = -1;
+	} else if (!chamber_on &&
+			c_now > chamber_threshold + chamber_hysteresis) {
+		// need good chamber pressure for several lines to turn on the chamber
+		if (chamber_on_line < 0) {
+			chamber_on_line = line;
+		} else if (line - chamber_on_line > chamber_transient_time) {
+			chamber_on = 1;
+			chamber_on_count++;
+		}
+	}
+	line++;
+}
+
+static void
+ipa_end()
+{
+	if (chamber_on_count != 1 ||
+			count_to_psi(c2) < chamber_threshold)
+		printf("Bad Run\n");
+	else
+		printf("Good Run\n");
+}
+
 static void
 process()
 {
@@ -225,6 +298,9 @@ process()
 			printf("Init IPA: %.0f\n", count_to_psi(c1));
 		}
 
+		if (ipa_mode)
+			ipa_init();
+
 		/*
 		 * Loop looking for the end of the firing
 		 */
@@ -233,7 +309,10 @@ process()
 				break;
 			if (o0 == 0)
 				break;
+			if (ipa_mode)
+				ipa_process();
 		}
+
 		if (csv) {
 			printf("%d,%.1f,%.1f,%.1f\n",
 				line_number/LINES_PER_MS,
@@ -245,6 +324,9 @@ process()
 			printf("Final IPA: %.0f\n", count_to_psi(c1));
 			printf("Final Chamber: %.0f\n", count_to_psi(c2));
 		}
+
+		if (ipa_mode)
+			ipa_end();
 	}
 }
 
