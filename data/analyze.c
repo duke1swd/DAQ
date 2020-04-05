@@ -6,6 +6,7 @@
 #include <getopt.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #define	LINE_LEN	128
 #define	LINES_PER_MS	5
@@ -221,10 +222,31 @@ process_line()
 }
 
 // These three routines do the IPA analysis
+#define MAX_IPA_SAMP	10000
 int chamber_on;			// boolean
 int chamber_on_count;
 int chamber_on_line;		// time, measured in lines of data
 int line;			// time, now.
+int n_ipa_samp;
+int ipa_summing;
+double sum_ipa_samp;
+double sum_ipa_samp_sq;
+int ipa_sample_line;
+double ipa_samp[MAX_IPA_SAMP];
+
+// ipa-mode output variables.
+double im_n2o_start_psi;
+double im_n2o_end_psi;
+double im_ipa_start_psi;
+double im_ipa_min_psi;
+double im_ipa_1_psi;	// IPA pressure when only IPA is flowing.  Defined as 10 sample lines after we start.
+double im_ipa_2_psi;	// IPA pressure with both propellants flowing, prior to ignition.  Line 45
+double im_ipa_3_psi;	// IPA pressure during burn
+double im_ipa_4_psi;	// IPA pressure at shutdown
+double im_ipa_end_psi;	// IPA pressure at shutdown + .5 second
+double im_pgood_msec;	// Duration of good burn
+double im_ipa_stddev;	// in PSI, from first p_good to shutdown
+int im_good_run;
 
 static void
 ipa_init()
@@ -233,13 +255,21 @@ ipa_init()
 	chamber_on_count = 0;
 	chamber_on_line = -1;	
 	line = 0;
+	im_n2o_start_psi = count_to_psi(c0);
+	im_ipa_start_psi = count_to_psi(c1);
+	im_ipa_min_psi = 1000.;
+	n_ipa_samp = 0;
+	sum_ipa_samp = 0.;
+	ipa_summing = 0;
 }
 
 static void
 ipa_process()
 {
 	double c_now;
+	double ipa_now;
 
+	ipa_now = count_to_psi(c1);
 	c_now = count_to_psi(c2);
 	if (chamber_on && c_now < chamber_threshold - chamber_hysteresis) {
 		chamber_on = 0;
@@ -254,17 +284,74 @@ ipa_process()
 			chamber_on_count++;
 		}
 	}
+	if (chamber_on)
+		ipa_summing = 1;
+	if (ipa_summing && n_ipa_samp < MAX_IPA_SAMP) {
+		ipa_samp[n_ipa_samp] = ipa_now;
+		sum_ipa_samp += ipa_now;
+		n_ipa_samp++;
+	}
+	if (ipa_now < im_ipa_min_psi)
+		im_ipa_min_psi = ipa_now;
+	if (line == 10)				// 50 milliseconds after commanded open
+		im_ipa_1_psi = ipa_now;
+	if (line == 45)
+		im_ipa_2_psi = ipa_now;		// 25 milliseconds after N2O commanded open
+	if (chamber_on && line - chamber_on_line == 40)
+		im_ipa_3_psi = ipa_now;		// 8 milliseconds after good pressure
 	line++;
 }
 
 static void
 ipa_end()
 {
+	im_n2o_end_psi = count_to_psi(c0);
+	im_ipa_4_psi = count_to_psi(c1);
+	im_pgood_msec = (double)(line - chamber_on_line) / 5.;
+	ipa_sample_line = line_number + 2500;	// 0.5 seconds
+
 	if (chamber_on_count != 1 ||
 			count_to_psi(c2) < chamber_threshold)
-		printf("Bad Run\n");
+		im_good_run = 0;
 	else
-		printf("Good Run\n");
+		im_good_run = 1;
+}
+
+static void
+ipa_report()
+{
+	int i;
+	double t;
+	double ipa_average;
+
+	ipa_average = sum_ipa_samp / (double)n_ipa_samp;
+	sum_ipa_samp_sq = 0.;
+	for (i = 0;i < n_ipa_samp; i++) {
+		t = ipa_samp[i] - ipa_average;
+		sum_ipa_samp_sq += t * t;
+	}
+
+	im_ipa_end_psi = count_to_psi(c1);
+	if (csv) {
+		printf("CSV and IPA NYI\n");
+	} else {
+		if (im_good_run)
+			printf("Good Run\n");
+		else
+			printf("Bad Run\n");
+		printf("N2O Start PSI = %.1f\n",  im_n2o_start_psi);
+		printf("N2O End PSI =   %.1f\n",  im_n2o_end_psi);
+		printf("IPA Start PSI = %.1f\n",  im_ipa_start_psi);
+		printf("IPA Min PSI =   %.1f\n",  im_ipa_min_psi);
+		printf("IPA PSI 1 =     %.1f\n",  im_ipa_1_psi);
+		printf("IPA PSI 1 =     %.1f\n",  im_ipa_2_psi);
+		printf("IPA PSI 3 =     %.1f\n",  im_ipa_3_psi);
+		printf("IPA PSI 4 =     %.1f\n",  im_ipa_4_psi);
+		printf("IPA End PSI =   %.1f\n",  im_ipa_end_psi);
+		printf("IPA Average =   %.1f\n", ipa_average);
+		printf("IPA Std Dev =   %.1f\n", sqrt(sum_ipa_samp_sq / (double)n_ipa_samp));
+		printf("Run time msec = %.1f\n", im_pgood_msec);
+	}
 }
 
 static void
@@ -294,8 +381,10 @@ process()
 		} else {
 			printf("\nsub test %d at line %d\n",
 				sub_test, line_number);
-			printf("Init N2O: %.0f\n", count_to_psi(c0));
-			printf("Init IPA: %.0f\n", count_to_psi(c1));
+			if (!ipa_mode) {
+				printf("Init N2O: %.0f\n", count_to_psi(c0));
+				printf("Init IPA: %.0f\n", count_to_psi(c1));
+			}
 		}
 
 		if (ipa_mode)
@@ -319,14 +408,21 @@ process()
 				count_to_psi(c0),
 				count_to_psi(c1),
 				count_to_psi(c2));
-		} else {
+		} else if (!ipa_mode) {
 			printf("Final N2O: %.0f\n", count_to_psi(c0));
 			printf("Final IPA: %.0f\n", count_to_psi(c1));
 			printf("Final Chamber: %.0f\n", count_to_psi(c2));
 		}
 
-		if (ipa_mode)
+		if (ipa_mode) {
 			ipa_end();
+			// now skip down until the IPA pressure recovers.
+			while (line_number < ipa_sample_line) {
+				if (process_line() == 0)
+					break;
+			}
+			ipa_report();
+		}
 	}
 }
 

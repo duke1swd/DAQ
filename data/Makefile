@@ -13,4 +13,4 @@ msgfromseq.exe: msgfromseq.c
 	gcc -Wall -o msgfromseq msgfromseq.c
 
 analyze.exe: analyze.c
-	gcc -Wall -o analyze analyze.c
+	gcc -Wall -o analyze analyze.c -lm
