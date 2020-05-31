@@ -428,7 +428,7 @@ process()
 		}
 
 		if (csv) {
-			printf("%d,%.1f,%.1f,%.1f",
+			printf("%d,%.1f,%.1f,%.1f,",
 				line_number/LINES_PER_MS,
 				count_to_psi(c0),
 				count_to_psi(c1),
@@ -448,7 +448,8 @@ process()
 			}
 			ipa_report();
 		}
-		printf("\n");
+		if (csv)
+			printf("\n");
 	}
 }
 
@@ -461,6 +462,7 @@ report_header()
 	printf( "sub-test,start-time,initial-n2o,initial-ipa,"
 		"end-time,final-n2o,final-ipa,final-chamber");
 	if (ipa_mode) {
+		printf(",result");
 		printf(",n2o-start-psi");
 		printf(",n2o-end-psi");
 		printf(",ipa-start-psi");
