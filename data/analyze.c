@@ -6,15 +6,19 @@
 #include <getopt.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include <math.h>
 
-#define	LINE_LEN	128
-#define	LINES_PER_MS	5
+#define	LINE_LEN		128
+#define	LINES_PER_MS		5
+#define	TEST_NAME_LENGTH	256
 
 char *myname;
 char *input_file_name;
 FILE *input;
 int csv;
+int m_mode;
+char test_name[TEST_NAME_LENGTH];
 int plotfile;
 int ipa_mode;
 double chamber_threshold;
@@ -25,6 +29,7 @@ static void
 set_defaults()
 {
 	csv = 0;
+	m_mode = 0;
 	plotfile = 0;
 	ipa_mode = 0;
 	chamber_threshold = 75;	// PSI absolute
@@ -40,6 +45,7 @@ usage()
 		myname);
 	fprintf(stderr, "Options:\n");
 	fprintf(stderr, "\t-e (output in CSV format)\n");
+	fprintf(stderr, "\t-m (prepend CSV lines with test name)\n");
 	fprintf(stderr, "\t-p (generate plot file commands)\n");
 	fprintf(stderr, "\t-I (analyze IPA flow performance)\n");
 	exit(1);
@@ -56,7 +62,7 @@ grok_args(int argc, char **argv)
 	errors = 0;
 	set_defaults();
 
-	while ((c = getopt(argc, argv, "Ipeh")) != EOF)
+	while ((c = getopt(argc, argv, "Ipemh")) != EOF)
 	switch(c) {
 	    case 'I':
 		ipa_mode++;
@@ -68,6 +74,10 @@ grok_args(int argc, char **argv)
 
 	    case 'e':
 	    	csv++;
+		break;
+
+	    case 'm':
+		m_mode++;
 		break;
 
 	    case 'h':
@@ -86,20 +96,16 @@ grok_args(int argc, char **argv)
 
 	if (nargs == 0)  {
 		input_file_name = "-";
+		input = stdin;
 		if (plotfile) {
 			fprintf(stderr, "%s: plotfile (-p) requires named"
 				"input file\n",
 				myname);
 			errors++;
 		}
-	} else
+	} else if (nargs == 1) {
 		input_file_name = argv[optind];
-
-	if (nargs <= 1) {
-		if (strcmp(input_file_name, "-") == 0)
-			input = stdin;
-		else
-			input = fopen(input_file_name, "r");
+		input = fopen(input_file_name, "r");
 		if (input == NULL) {
 			fprintf(stderr, "%s: cannot open file %s for reading\n",
 				myname,
@@ -107,10 +113,14 @@ grok_args(int argc, char **argv)
 			perror("open");
 			errors++;
 		}
+	} else {
+		fprintf(stderr, "%s: Can only process one input file.\n",
+				myname);
+		errors++;
 	}
 
-	if (nargs > 1) {
-		fprintf(stderr, "%s: Can only process one input file.\n",
+	if (plotfile) {
+		fprintf(stderr, "%s: -p option not yet implemented\n",
 				myname);
 		errors++;
 	}
@@ -168,7 +178,8 @@ header()
 			input_file_name);
 		exit(1);
 	}
-	printf("Test date line: %s", dateline);
+	if (!csv)
+		printf("Test date line: %s", dateline);
 }
 
 static double
@@ -333,7 +344,19 @@ ipa_report()
 
 	im_ipa_end_psi = count_to_psi(c1);
 	if (csv) {
-		printf("CSV and IPA NYI\n");
+		printf("%s,", im_good_run?"G": "B");
+		printf("%.1f,",  im_n2o_start_psi);
+		printf("%.1f,",  im_n2o_end_psi);
+		printf("%.1f,",  im_ipa_start_psi);
+		printf("%.1f,",  im_ipa_min_psi);
+		printf("%.1f,",  im_ipa_1_psi);
+		printf("%.1f,",  im_ipa_2_psi);
+		printf("%.1f,",  im_ipa_3_psi);
+		printf("%.1f,",  im_ipa_4_psi);
+		printf("%.1f,",  im_ipa_end_psi);
+		printf("%.1f,", ipa_average);
+		printf("%.1f,", sqrt(sum_ipa_samp_sq / (double)n_ipa_samp));
+		printf("%.1f,", im_pgood_msec);
 	} else {
 		if (im_good_run)
 			printf("Good Run\n");
@@ -373,6 +396,8 @@ process()
 		}
 
 		if (csv) {
+			if (m_mode)
+				printf("%s,", test_name);
 			printf("%d,%d,%.1f,%.1f,",
 				sub_test,
 				line_number/LINES_PER_MS,
@@ -403,7 +428,7 @@ process()
 		}
 
 		if (csv) {
-			printf("%d,%.1f,%.1f,%.1f\n",
+			printf("%d,%.1f,%.1f,%.1f",
 				line_number/LINES_PER_MS,
 				count_to_psi(c0),
 				count_to_psi(c1),
@@ -423,15 +448,56 @@ process()
 			}
 			ipa_report();
 		}
+		printf("\n");
 	}
 }
 
 static void
 report_header()
 {
+	if (m_mode)
+		printf("test,");
+
 	printf( "sub-test,start-time,initial-n2o,initial-ipa,"
-		"end-time,final-n2o,final-ipa,final-chamber\n");
+		"end-time,final-n2o,final-ipa,final-chamber");
+	if (ipa_mode) {
+		printf(",n2o-start-psi");
+		printf(",n2o-end-psi");
+		printf(",ipa-start-psi");
+		printf(",ipa-min-psi");
+		printf(",ipa-psi-1");
+		printf(",ipa-psi-1");
+		printf(",ipa-psi-3");
+		printf(",ipa-psi-4");
+		printf(",ipa-end-psi");
+		printf(",ipa-average");
+		printf(",ipa-std-dev");
+		printf(",run-time-msec");
+	}
+	printf("\n");
 }
+
+static void
+get_test_name()
+{
+	char *p;
+
+	// Get file name, less leading directory info
+	p = index(input_file_name, '/');
+	if (p)
+		p++;
+	else
+		p = input_file_name;
+
+	// Copy basename to buffer
+	strncpy(test_name, p, TEST_NAME_LENGTH);
+
+	// find last '.', if any
+	p = rindex(test_name, '.');
+	if (p)
+		*p = '\0';
+}
+
 
 int
 main(int argc, char **argv)
@@ -441,8 +507,10 @@ main(int argc, char **argv)
 	line_number = 0;
 	end_of_input = 0;
 	header();
-	if (csv)
+	if (csv) {
 		report_header();
+		get_test_name();
+	}
 	process();
 	return 0;
 }
