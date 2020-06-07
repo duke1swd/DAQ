@@ -328,6 +328,63 @@ ipa_end()
 		im_good_run = 1;
 }
 
+#define	REASON_LID	0
+#define	REASON_IF	1
+#define	REASON_N2	2
+#define	REASON_NI	3
+
+static char *long_reasons[] = {
+	"IPA Pressure Drop < 150 PSI",
+	"IPA Pressure std dev > 2.2",
+	"N2O Final Pressure < 180 PSI",
+	"IPA Initial Pressure < 290 PSI",
+};
+
+static char *short_reasons[] = {
+	"LID",
+	"IF",
+	"N2",
+	"NI",
+};
+
+static int first_code;
+static void print_reason_code(int r)
+{
+	if (csv) {
+		if (first_code == 0) {
+			first_code = 1;
+			printf("\"");
+		}
+		if (first_code == 1) 
+			first_code = 2;
+		else
+			printf(",");
+		printf(short_reasons[r]);
+	} else
+		printf("  %s\n", long_reasons[r]);
+}
+
+
+static void
+print_reason_codes()
+{
+	first_code = 0;
+
+	if (im_ipa_start_psi - im_ipa_min_psi < 150.)
+		print_reason_code(REASON_LID);
+	if (sqrt(sum_ipa_samp_sq / (double)n_ipa_samp) > 2.15)
+		print_reason_code(REASON_IF);
+	if (im_n2o_end_psi < 180.)
+		print_reason_code(REASON_N2);
+	if (im_ipa_start_psi < 290.)
+		print_reason_code(REASON_NI);
+
+	if (csv && first_code)
+		printf("\"");
+	printf(",");
+}
+
+
 static void
 ipa_report()
 {
@@ -345,6 +402,7 @@ ipa_report()
 	im_ipa_end_psi = count_to_psi(c1);
 	if (csv) {
 		printf("%s,", im_good_run?"G": "B");
+		print_reason_codes();
 		printf("%.1f,",  im_n2o_start_psi);
 		printf("%.1f,",  im_n2o_end_psi);
 		printf("%.1f,",  im_ipa_start_psi);
@@ -360,8 +418,10 @@ ipa_report()
 	} else {
 		if (im_good_run)
 			printf("Good Run\n");
-		else
+		else {
 			printf("Bad Run\n");
+			print_reason_codes();
+		}
 		printf("N2O Start PSI = %.1f\n",  im_n2o_start_psi);
 		printf("N2O End PSI =   %.1f\n",  im_n2o_end_psi);
 		printf("IPA Start PSI = %.1f\n",  im_ipa_start_psi);
@@ -463,12 +523,13 @@ report_header()
 		"end-time,final-n2o,final-ipa,final-chamber");
 	if (ipa_mode) {
 		printf(",result");
+		printf(",reason");
 		printf(",n2o-start-psi");
 		printf(",n2o-end-psi");
 		printf(",ipa-start-psi");
 		printf(",ipa-min-psi");
 		printf(",ipa-psi-1");
-		printf(",ipa-psi-1");
+		printf(",ipa-psi-2");
 		printf(",ipa-psi-3");
 		printf(",ipa-psi-4");
 		printf(",ipa-end-psi");
