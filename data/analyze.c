@@ -13,6 +13,8 @@
 #define	LINES_PER_MS		5
 #define	TEST_NAME_LENGTH	256
 
+#define	LINE_POINT_2	1125	// 225 msec
+
 char *myname;
 char *input_file_name;
 FILE *input;
@@ -21,6 +23,7 @@ int m_mode;
 char test_name[TEST_NAME_LENGTH];
 int plotfile;
 int ipa_mode;
+int cold_mode;
 double chamber_threshold;
 double chamber_hysteresis; 
 int chamber_transient_time;
@@ -32,6 +35,7 @@ set_defaults()
 	m_mode = 0;
 	plotfile = 0;
 	ipa_mode = 0;
+	cold_mode = 0;
 	chamber_threshold = 75;	// PSI absolute
 	chamber_hysteresis = 5; // PSI
 	chamber_transient_time = 3;
@@ -48,6 +52,7 @@ usage()
 	fprintf(stderr, "\t-m (prepend CSV lines with test name)\n");
 	fprintf(stderr, "\t-p (generate plot file commands)\n");
 	fprintf(stderr, "\t-I (analyze IPA flow performance)\n");
+	fprintf(stderr, "\t-c (cold mode.  No N2O present)\n");
 	exit(1);
 }
 
@@ -62,8 +67,12 @@ grok_args(int argc, char **argv)
 	errors = 0;
 	set_defaults();
 
-	while ((c = getopt(argc, argv, "Ipemh")) != EOF)
+	while ((c = getopt(argc, argv, "cIpemh")) != EOF)
 	switch(c) {
+	    case 'c':
+	    	cold_mode++;
+		break;
+
 	    case 'I':
 		ipa_mode++;
 		break;
@@ -84,6 +93,11 @@ grok_args(int argc, char **argv)
 	    case '?':
 	    default:
 	    	usage();
+	}
+
+	if (cold_mode && !ipa_mode) {
+		fprintf(stderr, "%s: warning: -c implies -I\n", myname);
+		ipa_mode++;
 	}
 
 	if (ipa_mode && plotfile) {
@@ -251,7 +265,7 @@ double im_n2o_end_psi;
 double im_ipa_start_psi;
 double im_ipa_min_psi;
 double im_ipa_1_psi;	// IPA pressure when only IPA is flowing.  Defined as 10 sample lines after we start.
-double im_ipa_2_psi;	// IPA pressure with both propellants flowing, prior to ignition.  Line 45
+double im_ipa_2_psi;	// IPA pressure with both propellants flowing, prior to ignition.  Line 1125=0.225ms
 double im_ipa_3_psi;	// IPA pressure during burn
 double im_ipa_4_psi;	// IPA pressure at shutdown
 double im_ipa_end_psi;	// IPA pressure at shutdown + .5 second
@@ -295,7 +309,7 @@ ipa_process()
 			chamber_on_count++;
 		}
 	}
-	if (chamber_on)
+	if (chamber_on || (cold_mode && line == LINE_POINT_2))
 		ipa_summing = 1;
 	if (ipa_summing && n_ipa_samp < MAX_IPA_SAMP) {
 		ipa_samp[n_ipa_samp] = ipa_now;
@@ -306,7 +320,7 @@ ipa_process()
 		im_ipa_min_psi = ipa_now;
 	if (line == 10)				// 50 milliseconds after commanded open
 		im_ipa_1_psi = ipa_now;
-	if (line == 45)
+	if (line == LINE_POINT_2)
 		im_ipa_2_psi = ipa_now;		// 25 milliseconds after N2O commanded open
 	if (chamber_on && line - chamber_on_line == 40)
 		im_ipa_3_psi = ipa_now;		// 8 milliseconds after good pressure
@@ -427,8 +441,9 @@ ipa_report()
 		printf("IPA Start PSI = %.1f\n",  im_ipa_start_psi);
 		printf("IPA Min PSI =   %.1f\n",  im_ipa_min_psi);
 		printf("IPA PSI 1 =     %.1f\n",  im_ipa_1_psi);
-		printf("IPA PSI 1 =     %.1f\n",  im_ipa_2_psi);
-		printf("IPA PSI 3 =     %.1f\n",  im_ipa_3_psi);
+		printf("IPA PSI 2 =     %.1f\n",  im_ipa_2_psi);
+		if (!cold_mode)
+			printf("IPA PSI 3 =     %.1f\n",  im_ipa_3_psi);
 		printf("IPA PSI 4 =     %.1f\n",  im_ipa_4_psi);
 		printf("IPA End PSI =   %.1f\n",  im_ipa_end_psi);
 		printf("IPA Average =   %.1f\n", ipa_average);
