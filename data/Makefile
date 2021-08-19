@@ -17,3 +17,6 @@ analyze.exe: analyze.c
 
 analyze: analyze.c
 	gcc -Wall -o analyze analyze.c -lm
+
+msgfromseq: msgfromseq.c
+	gcc -Wall -o msgfromseq msgfromseq.c
